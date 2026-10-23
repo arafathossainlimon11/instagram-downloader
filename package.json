@@ -1,23 +1,21 @@
 {
   "name": "reelsaver-instagram-downloader",
   "version": "1.0.0",
-  "description": "Instagram Video & Reel Downloader – SEO-optimized web app with Express backend powered by yt-dlp.",
+  "description": "Fast Instagram Video & Reel Downloader Web App powered by RapidAPI.",
   "main": "server.js",
   "private": true,
   "license": "MIT",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "start": "node server.js"
   },
   "engines": {
-    "node": ">=18.17.0"
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "express-rate-limit": "^7.4.0",
-    "helmet": "^7.1.0",
-    "youtube-dl-exec": "^3.0.10"
+    "helmet": "^7.1.0"
   }
 }
