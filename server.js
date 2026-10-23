@@ -5,14 +5,18 @@ const compression = require('compression');
 const helmet = require('helmet');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
-const youtubeDl = require('youtube-dl-exec');
 const path = require('path');
-const os = require('os');
-const fs = require('fs');
 const { Readable } = require('stream');
 
+/* ---------- Configuration ---------- */
 const PORT = process.env.PORT || 3000;
 const SITE_URL = (process.env.SITE_URL || 'https://reelsaver.online').replace(/\/+$/, '');
+
+// Environment variables take priority (recommended on Render/Vercel); the fallbacks are your credentials.
+const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY || 'a3b126029bmshfb86807dc38830dp1a8c53jsncf074cc292fc';
+const RAPIDAPI_HOST = process.env.RAPIDAPI_HOST || 'instagram-downloader-download-instagram-videos-stories1.p.rapidapi.com';
+const RAPIDAPI_ENDPOINT = 'https://' + RAPIDAPI_HOST + '/index';
+
 const USER_AGENT =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
 
@@ -43,18 +47,6 @@ app.use(compression());
 app.use(cors());
 app.use(express.json({ limit: '10kb' }));
 
-/* ---------- Optional Instagram cookies (helps with rate-limits / login walls) ---------- */
-let cookiesFile = null;
-if (process.env.IG_COOKIES && process.env.IG_COOKIES.trim()) {
-  try {
-    cookiesFile = path.join(os.tmpdir(), 'ig_cookies.txt');
-    fs.writeFileSync(cookiesFile, process.env.IG_COOKIES.replace(/\\n/g, '\n'), { mode: 0o600 });
-  } catch (err) {
-    console.error('Could not write cookies file:', err.message);
-    cookiesFile = null;
-  }
-}
-
 /* ---------- Rate limiting ---------- */
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -71,15 +63,13 @@ const proxyLimiter = rateLimit({
   message: 'Too many requests. Please slow down.',
 });
 
-/* ---------- Helpers ---------- */
+/* ---------- URL validation ---------- */
 const ALLOWED_PAGE_HOSTS = new Set(['instagram.com', 'www.instagram.com', 'm.instagram.com', 'instagr.am', 'www.instagr.am']);
-const ALLOWED_CDN_SUFFIXES = ['cdninstagram.com', 'fbcdn.net', 'instagram.com'];
-const IMAGE_EXTS = new Set(['jpg', 'jpeg', 'png', 'webp']);
 
 function normalizeInstagramUrl(raw) {
   let u;
   try {
-    u = new URL(String(raw).trim());
+    u = new URL(String(raw || '').trim());
   } catch (e) {
     return null;
   }
@@ -92,13 +82,10 @@ function normalizeInstagramUrl(raw) {
     /^\/share\/(?:p|reel|r)?\/?[A-Za-z0-9_-]+\/?/.test(p);
   if (!ok) return null;
   const clean = new URL(u.origin + p);
-  if (u.searchParams.has('img_index') && /\/p\//.test(p)) clean.searchParams.set('img_index', u.searchParams.get('img_index'));
+  if (u.searchParams.has('img_index') && /\/p\//.test(p)) {
+    clean.searchParams.set('img_index', u.searchParams.get('img_index'));
+  }
   return clean.toString();
-}
-
-function isAllowedCdnHost(hostname) {
-  const h = hostname.toLowerCase();
-  return ALLOWED_CDN_SUFFIXES.some((s) => h === s || h.endsWith('.' + s));
 }
 
 function sanitizeFilename(name) {
@@ -106,96 +93,187 @@ function sanitizeFilename(name) {
   return cleaned || 'reelsaver';
 }
 
-function isCombined(f) {
-  return (
-    f &&
-    f.url &&
-    f.vcodec &&
-    f.vcodec !== 'none' &&
-    f.acodec &&
-    f.acodec !== 'none' &&
-    String(f.protocol || 'https').startsWith('http')
-  );
+/* ---------- Proxy host allow-list (Instagram CDN + hosts returned by the API) ---------- */
+const CDN_SUFFIXES = ['cdninstagram.com', 'fbcdn.net', 'instagram.com'];
+const dynamicHosts = new Map(); // hostname -> expiry timestamp
+const DYNAMIC_HOST_TTL = 30 * 60 * 1000;
+const IP_LITERAL = /^(\d{1,3}\.){3}\d{1,3}$|:/;
+
+function registerHost(rawUrl) {
+  try {
+    const u = new URL(rawUrl);
+    const h = u.hostname.toLowerCase();
+    if (u.protocol !== 'https:' || !h.includes('.') || IP_LITERAL.test(h) || h === 'localhost') return;
+    if (dynamicHosts.size > 500) dynamicHosts.delete(dynamicHosts.keys().next().value);
+    dynamicHosts.set(h, Date.now() + DYNAMIC_HOST_TTL);
+  } catch (e) {
+    /* ignore */
+  }
 }
 
-function buildItem(entry) {
-  const byHeight = new Map();
-  (entry.formats || []).filter(isCombined).forEach((f) => {
-    const h = f.height || 0;
-    const prev = byHeight.get(h);
-    if (!prev || (f.tbr || 0) > (prev.tbr || 0)) byHeight.set(h, f);
+function isAllowedHost(hostname) {
+  const h = hostname.toLowerCase();
+  if (CDN_SUFFIXES.some((s) => h === s || h.endsWith('.' + s))) return true;
+  const exp = dynamicHosts.get(h);
+  if (exp && exp > Date.now()) return true;
+  if (exp) dynamicHosts.delete(h);
+  return false;
+}
+
+/* ---------- RapidAPI response parsing ---------- */
+const VIDEO_EXT = /\.(mp4|mov|m4v|webm)$/i;
+const IMAGE_EXT = /\.(jpe?g|png|webp|gif|heic)$/i;
+const THUMB_KEY = /thumb|cover|preview|poster|display|image|photo|picture/i;
+const VIDEO_KEY = /video|download|media|mp4|hd|sd|src|link|url/i;
+
+function pathOf(u) {
+  try {
+    return new URL(u).pathname;
+  } catch (e) {
+    return '';
+  }
+}
+
+function walk(node, key, found, depth) {
+  if (depth > 8 || node === null || node === undefined) return;
+  if (typeof node === 'string') {
+    if (/^https?:\/\//i.test(node)) found.push({ key: key || '', url: node.trim() });
+    return;
+  }
+  if (Array.isArray(node)) {
+    node.forEach((n) => walk(n, key, found, depth + 1));
+    return;
+  }
+  if (typeof node === 'object') {
+    Object.keys(node).forEach((k) => walk(node[k], k, found, depth + 1));
+  }
+}
+
+function firstString(obj, keys) {
+  for (let i = 0; i < keys.length; i++) {
+    const v = obj && obj[keys[i]];
+    if (typeof v === 'string' && v.trim() && !/^https?:\/\//i.test(v.trim())) return v.trim();
+  }
+  return null;
+}
+
+function parseRapidResponse(data) {
+  const found = [];
+  walk(data, '', found, 0);
+
+  const videos = [];
+  const thumbs = [];
+  const images = [];
+  const seen = new Set();
+
+  found.forEach((f) => {
+    const p = pathOf(f.url);
+    const dedupeKey = f.url.split('?')[0];
+    if (!p || seen.has(dedupeKey)) return;
+
+    const looksVideo = VIDEO_EXT.test(p) || /[?&](mime_type|_nc_vs)=.*video/i.test(f.url) || /video_dash|\/v\/t\d+[^/]*\/.*\.mp4/i.test(f.url);
+    const looksImage = IMAGE_EXT.test(p);
+
+    if (looksVideo) {
+      seen.add(dedupeKey);
+      videos.push(f.url);
+    } else if (looksImage) {
+      seen.add(dedupeKey);
+      if (/thumb|cover|preview|poster/i.test(f.key)) thumbs.push(f.url);
+      else images.push(f.url);
+    }
   });
 
-  let formats = Array.from(byHeight.values())
-    .sort((a, b) => (b.height || 0) - (a.height || 0))
-    .map((f) => ({
-      label: f.height ? f.height + 'p MP4' : 'MP4 Video',
-      ext: f.ext || 'mp4',
-      height: f.height || 0,
-      size: f.filesize || f.filesize_approx || null,
-      url: f.url,
-    }));
-
-  if (!formats.length && entry.url) {
-    const ext = (entry.ext || 'mp4').toLowerCase();
-    formats = [
-      {
-        label: IMAGE_EXTS.has(ext) ? 'Original Image' : entry.height ? entry.height + 'p MP4' : 'MP4 Video',
-        ext,
-        height: entry.height || 0,
-        size: entry.filesize || entry.filesize_approx || null,
-        url: entry.url,
-      },
-    ];
+  // Fallback: unknown extension but the key clearly names a video/download link
+  if (!videos.length) {
+    found.forEach((f) => {
+      const p = pathOf(f.url);
+      const dedupeKey = f.url.split('?')[0];
+      if (!p || seen.has(dedupeKey) || IMAGE_EXT.test(p)) return;
+      if (/video|download|media|mp4/i.test(f.key) && !THUMB_KEY.test(f.key.replace(/media/i, ''))) {
+        seen.add(dedupeKey);
+        videos.push(f.url);
+      }
+    });
   }
 
-  if (!formats.length && Array.isArray(entry.requested_formats)) {
-    const v = entry.requested_formats.find((f) => f && f.url && f.vcodec && f.vcodec !== 'none');
-    if (v) {
-      formats = [
-        {
-          label: v.height ? v.height + 'p MP4' : 'MP4 Video',
-          ext: v.ext || 'mp4',
-          height: v.height || 0,
-          size: v.filesize || v.filesize_approx || null,
-          url: v.url,
-        },
-      ];
-    }
+  const root = data && typeof data === 'object' && !Array.isArray(data) ? data : {};
+  const nested = root.data && typeof root.data === 'object' && !Array.isArray(root.data) ? root.data : {};
+
+  const title =
+    firstString(root, ['title', 'caption', 'description', 'text']) ||
+    firstString(nested, ['title', 'caption', 'description', 'text']) ||
+    'Instagram video';
+  const uploader =
+    firstString(root, ['username', 'owner', 'author', 'user', 'uploader']) ||
+    firstString(nested, ['username', 'owner', 'author', 'user', 'uploader']) ||
+    null;
+  const duration = Number(root.duration || nested.duration || root.video_duration || nested.video_duration) || null;
+
+  const items = [];
+  if (videos.length) {
+    videos.forEach((v, i) => {
+      const thumb = thumbs.length === videos.length ? thumbs[i] : thumbs[0] || images[0] || null;
+      items.push({
+        type: 'video',
+        title: videos.length > 1 ? null : title,
+        thumbnail: thumb,
+        duration: videos.length === 1 ? duration : null,
+        formats: [{ label: 'MP4 Video', ext: 'mp4', height: 0, size: null, url: v }],
+      });
+    });
+  } else if (images.length) {
+    images.forEach((img) => {
+      const ext = (pathOf(img).split('.').pop() || 'jpg').toLowerCase();
+      items.push({
+        type: 'image',
+        title: images.length > 1 ? null : title,
+        thumbnail: null,
+        duration: null,
+        formats: [{ label: 'Original Image', ext: ext, height: 0, size: null, url: img }],
+      });
+    });
   }
 
-  if (!formats.length) return null;
-
-  return {
-    type: IMAGE_EXTS.has(formats[0].ext) ? 'image' : 'video',
-    title: entry.title || null,
-    thumbnail: entry.thumbnail || null,
-    duration: entry.duration || null,
-    formats,
-  };
+  return { items, title, uploader };
 }
 
-function friendlyError(err) {
-  const text = String((err && (err.stderr || err.message)) || '').toLowerCase();
-  if (text.includes('private') || text.includes('not available') || text.includes('login required') || text.includes('requested content is not available')) {
-    return { status: 403, message: 'This post is private, restricted or requires login. Only public posts can be downloaded.' };
+/* ---------- Error mapping ---------- */
+function mapUpstreamStatus(status, bodyText) {
+  const t = String(bodyText || '').toLowerCase();
+  if (status === 401 || status === 403) {
+    if (t.includes('not subscribed') || t.includes('subscribe')) {
+      return { status: 502, message: 'The download service is not available right now. Please try again later.' };
+    }
+    return { status: 502, message: 'The download service rejected the request. Please try again later.' };
   }
-  if (text.includes('rate-limit') || text.includes('rate limit') || text.includes('429') || text.includes('too many')) {
-    return { status: 429, message: 'Instagram is limiting requests right now. Please try again in a few minutes.' };
+  if (status === 429) {
+    return { status: 429, message: 'The service is receiving too many requests right now. Please try again in a minute.' };
   }
-  if (text.includes('no video') || text.includes('there is no video')) {
-    return { status: 404, message: 'No downloadable video was found in this post.' };
+  if (status === 404 || status === 422 || status === 400) {
+    return { status: 404, message: 'We could not find this post. Make sure the link is correct and the post is public.' };
   }
-  if (text.includes('404') || text.includes('not found') || text.includes('unable to extract')) {
-    return { status: 404, message: 'We could not find this post. Check the link and make sure the post is public.' };
-  }
-  if (err && (err.timedOut || text.includes('timed out'))) {
-    return { status: 504, message: 'Instagram took too long to respond. Please try again.' };
+  if (status >= 500) {
+    return { status: 502, message: 'The download service is temporarily unavailable. Please try again shortly.' };
   }
   return { status: 502, message: 'We could not fetch this video right now. Please try again shortly.' };
 }
 
-/* ---------- Tiny in-memory cache (CDN links expire, so keep it short) ---------- */
+function mapBodyMessage(msg) {
+  const t = String(msg || '').toLowerCase();
+  if (t.includes('private')) {
+    return { status: 403, message: 'This post is private. Only public posts can be downloaded.' };
+  }
+  if (t.includes('not found') || t.includes('invalid') || t.includes('unavailable') || t.includes('no media') || t.includes('not exist')) {
+    return { status: 404, message: 'We could not find this post. Make sure the link is correct and the post is public.' };
+  }
+  if (t.includes('limit') || t.includes('quota')) {
+    return { status: 429, message: 'The service is receiving too many requests right now. Please try again in a minute.' };
+  }
+  return null;
+}
+
+/* ---------- Small in-memory cache ---------- */
 const CACHE_TTL = 5 * 60 * 1000;
 const cache = new Map();
 function cacheGet(key) {
@@ -212,9 +290,57 @@ function cacheSet(key, value) {
   cache.set(key, { t: Date.now(), v: value });
 }
 
-/* ---------- API: extract media ---------- */
-app.post('/api/download', apiLimiter, async (req, res) => {
-  const cleanUrl = normalizeInstagramUrl(req.body && req.body.url);
+/* ---------- Core: call RapidAPI ---------- */
+async function fetchFromRapidApi(igUrl) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 40000);
+  try {
+    const endpoint = new URL(RAPIDAPI_ENDPOINT);
+    endpoint.searchParams.set('url', igUrl);
+
+    const response = await fetch(endpoint.toString(), {
+      method: 'GET',
+      headers: {
+        'X-RapidAPI-Key': RAPIDAPI_KEY,
+        'X-RapidAPI-Host': RAPIDAPI_HOST,
+        Accept: 'application/json',
+      },
+      signal: controller.signal,
+    });
+
+    const text = await response.text();
+    let json = null;
+    try {
+      json = JSON.parse(text);
+    } catch (e) {
+      json = null;
+    }
+
+    if (!response.ok) {
+      const bodyMsg = json && (json.message || json.error || json.detail);
+      const fromBody = bodyMsg ? mapBodyMessage(bodyMsg) : null;
+      const err = new Error('Upstream HTTP ' + response.status);
+      err.mapped = fromBody || mapUpstreamStatus(response.status, text);
+      err.raw = text.slice(0, 300);
+      throw err;
+    }
+
+    if (json === null) {
+      const err = new Error('Upstream returned non-JSON response');
+      err.mapped = { status: 502, message: 'We received an unexpected response from the download service. Please try again.' };
+      err.raw = text.slice(0, 300);
+      throw err;
+    }
+
+    return json;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function handleDownload(req, res) {
+  const rawUrl = (req.body && req.body.url) || req.query.url;
+  const cleanUrl = normalizeInstagramUrl(rawUrl);
   if (!cleanUrl) {
     return res.status(400).json({
       success: false,
@@ -226,40 +352,67 @@ app.post('/api/download', apiLimiter, async (req, res) => {
   if (cached) return res.json(cached);
 
   try {
-    const flags = {
-      dumpSingleJson: true,
-      noWarnings: true,
-      noCheckCertificates: true,
-      addHeader: ['referer:https://www.instagram.com/', 'user-agent:' + USER_AGENT],
-    };
-    if (cookiesFile) flags.cookies = cookiesFile;
+    const data = await fetchFromRapidApi(cleanUrl);
 
-    const info = await youtubeDl(cleanUrl, flags, { timeout: 55000 });
-
-    const entries = Array.isArray(info.entries) && info.entries.length ? info.entries : [info];
-    const items = entries.map(buildItem).filter(Boolean);
-
-    if (!items.length) {
-      return res.status(404).json({ success: false, error: 'No downloadable video was found in this post.' });
+    // Some APIs return 200 with an error payload
+    const errField = data && (data.error || (data.success === false && data.message) || (data.status === 'error' && data.message));
+    if (errField) {
+      const mapped = mapBodyMessage(errField) || {
+        status: 404,
+        message: 'No downloadable media was found for this link.',
+      };
+      return res.status(mapped.status).json({ success: false, error: mapped.message });
     }
+
+    const parsed = parseRapidResponse(data);
+    if (!parsed.items.length) {
+      return res.status(404).json({
+        success: false,
+        error: 'No downloadable video was found in this post. Make sure it is public and contains a video.',
+      });
+    }
+
+    parsed.items.forEach((item) => {
+      item.formats.forEach((f) => registerHost(f.url));
+      if (item.thumbnail) registerHost(item.thumbnail);
+    });
+
+    const firstVideo = parsed.items.find((i) => i.type === 'video');
+    const idMatch = cleanUrl.match(/\/(?:p|reel|reels|tv)\/([A-Za-z0-9_-]+)/);
 
     const payload = {
       success: true,
-      id: sanitizeFilename(info.id || 'reelsaver'),
-      title: info.title ? String(info.title).slice(0, 160) : 'Instagram video',
-      uploader: info.uploader || info.channel || null,
-      items,
+      id: sanitizeFilename(idMatch ? idMatch[1] : 'reelsaver'),
+      title: String(parsed.title).slice(0, 160),
+      uploader: parsed.uploader,
+      videoUrl: firstVideo ? firstVideo.formats[0].url : null,
+      thumbnail: firstVideo ? firstVideo.thumbnail : null,
+      items: parsed.items,
     };
+
     cacheSet(cleanUrl, payload);
     return res.json(payload);
   } catch (err) {
-    const { status, message } = friendlyError(err);
-    console.error('[extract-error]', cleanUrl, String((err && err.stderr) || err.message || err).slice(0, 400));
-    return res.status(status).json({ success: false, error: message });
+    if (err && err.name === 'AbortError') {
+      return res.status(504).json({ success: false, error: 'The download service took too long to respond. Please try again.' });
+    }
+    if (err && err.mapped) {
+      console.error('[rapidapi-error]', cleanUrl, err.message, err.raw || '');
+      return res.status(err.mapped.status).json({ success: false, error: err.mapped.message });
+    }
+    console.error('[server-error]', cleanUrl, err && err.message ? err.message : err);
+    return res.status(502).json({
+      success: false,
+      error: 'We could not fetch this video right now. Please try again shortly.',
+    });
   }
-});
+}
 
-/* ---------- API: streaming proxy (preview + forced download) ---------- */
+/* ---------- API routes ---------- */
+app.post('/api/download', apiLimiter, handleDownload);
+app.get('/api/download', apiLimiter, handleDownload);
+
+/* ---------- Streaming proxy (preview + forced download) ---------- */
 app.get('/api/proxy', proxyLimiter, async (req, res) => {
   let target;
   try {
@@ -267,7 +420,7 @@ app.get('/api/proxy', proxyLimiter, async (req, res) => {
   } catch (e) {
     return res.status(400).send('Invalid URL');
   }
-  if (target.protocol !== 'https:' || !isAllowedCdnHost(target.hostname)) {
+  if (target.protocol !== 'https:' || !isAllowedHost(target.hostname)) {
     return res.status(403).send('Host not allowed');
   }
 
@@ -283,14 +436,22 @@ app.get('/api/proxy', proxyLimiter, async (req, res) => {
     const upstream = await fetch(target.toString(), { headers, signal: controller.signal, redirect: 'follow' });
 
     if (upstream.url) {
-      const finalHost = new URL(upstream.url).hostname;
-      if (!isAllowedCdnHost(finalHost)) {
+      let finalHost = '';
+      try {
+        finalHost = new URL(upstream.url).hostname;
+      } catch (e) {
+        finalHost = '';
+      }
+      if (!finalHost || (!isAllowedHost(finalHost) && finalHost !== target.hostname)) {
         controller.abort();
         return res.status(403).send('Redirect host not allowed');
       }
     }
+
     if (!upstream.ok && upstream.status !== 206) {
-      return res.status(upstream.status === 403 || upstream.status === 410 ? 410 : 502).send('The media link has expired. Please fetch the video again.');
+      return res
+        .status(upstream.status === 403 || upstream.status === 410 ? 410 : 502)
+        .send('The media link has expired. Please fetch the video again.');
     }
 
     res.status(upstream.status);
@@ -372,6 +533,9 @@ app.use((req, res) => {
 app.use((err, req, res, next) => {
   console.error('[server-error]', err.message);
   if (res.headersSent) return next(err);
+  if (err.type === 'entity.parse.failed') {
+    return res.status(400).json({ success: false, error: 'Invalid request body.' });
+  }
   res.status(500).json({ success: false, error: 'Internal server error.' });
 });
 
