@@ -20,54 +20,6 @@
 <meta property="og:image" content="https://reelsaver.online/og-image.svg">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Instagram Video &amp; Reel Downloader – Free HD MP4">
-<meta name="twitter:description" content="Paste a public Instagram link and download Reels, videos and IGTV in HD. Fast, free, no login required.">
-<meta name="twitter:image" content="https://reelsaver.online/og-image.svg">
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "ReelSaver – Instagram Video & Reel Downloader",
-  "url": "https://reelsaver.online/",
-  "description": "Free online tool to download public Instagram Reels, videos and IGTV in HD MP4 without login.",
-  "applicationCategory": "MultimediaApplication",
-  "operatingSystem": "Any (Web Browser)",
-  "browserRequirements": "Requires JavaScript",
-  "inLanguage": "en",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "1286", "bestRating": "5", "worstRating": "1" },
-  "featureList": ["Download Instagram Reels", "Download Instagram videos and IGTV", "HD MP4 quality", "No login required", "Works on mobile and desktop"]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    { "@type": "Question", "name": "How do I download an Instagram video or Reel?", "acceptedAnswer": { "@type": "Answer", "text": "Open Instagram, tap the three dots or Share button on the post, choose Copy Link, paste it into the box above and press Download. Then pick a quality and save the MP4 file." } },
-    { "@type": "Question", "name": "Is this Instagram video downloader free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. ReelSaver is completely free to use, with no sign-up, no subscription and no download limits for normal use." } },
-    { "@type": "Question", "name": "Can I download videos from private accounts?", "acceptedAnswer": { "@type": "Answer", "text": "No. Only publicly visible posts can be downloaded. Content from private accounts is not accessible and we never ask for your Instagram password." } },
-    { "@type": "Question", "name": "Where are downloaded videos saved?", "acceptedAnswer": { "@type": "Answer", "text": "Files go to your browser’s default download location. On iPhone they appear in the Files app under Downloads, and on Android in the Downloads folder or gallery." } },
-    { "@type": "Question", "name": "Does it work on iPhone, Android and PC?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. ReelSaver runs in any modern browser, including Safari, Chrome, Firefox and Edge, on iPhone, Android, Windows, macOS and Linux." } },
-    { "@type": "Question", "name": "Is it legal to download Instagram videos?", "acceptedAnswer": { "@type": "Answer", "text": "Download only content you own or have permission to use. Respect the creator’s copyright and Instagram’s Terms of Use. Personal offline viewing of your own content is the safest use." } }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "HowTo",
-  "name": "How to Download Instagram Videos and Reels",
-  "totalTime": "PT1M",
-  "step": [
-    { "@type": "HowToStep", "name": "Copy the link", "text": "Open the Instagram post or Reel and tap Share, then Copy Link." },
-    { "@type": "HowToStep", "name": "Paste the link", "text": "Paste the Instagram URL into the ReelSaver input box." },
-    { "@type": "HowToStep", "name": "Press Download", "text": "Tap the Download button and wait a few seconds while the video is fetched." },
-    { "@type": "HowToStep", "name": "Save the MP4", "text": "Choose your preferred quality and tap Download MP4 to save the file." }
-  ]
-}
-</script>
 
 <style>
 :root{
@@ -108,22 +60,26 @@ header.site{
 .nav-links a{text-decoration:none;color:var(--muted);font-weight:600;font-size:.95rem;transition:color .2s}
 .nav-links a:hover{color:var(--primary)}
 
+/* Ad Banners */
+.ad-slot{
+  width:100%;max-width:728px;margin:20px auto;text-align:center;
+  min-height:90px;background:rgba(233,30,99,.04);border:1px dashed var(--border);
+  border-radius:12px;display:flex;align-items:center;justify-content:center;
+  color:var(--muted);font-size:.85rem;overflow:hidden;
+}
+
 /* Hero */
-.hero{position:relative;padding:56px 0 40px;text-align:center;isolation:isolate}
-.blob{position:absolute;border-radius:50%;filter:blur(70px);z-index:-1;opacity:.55}
-.blob.b1{width:340px;height:340px;background:#ff80ab;top:-80px;left:-80px}
-.blob.b2{width:300px;height:300px;background:#f48fb1;top:120px;right:-60px}
-.blob.b3{width:240px;height:240px;background:#ffc1d9;bottom:-60px;left:35%}
+.hero{position:relative;padding:40px 0 30px;text-align:center;isolation:isolate}
 .badge{display:inline-block;padding:6px 16px;border-radius:999px;background:rgba(233,30,99,.1);color:var(--dark);font-weight:700;font-size:.8rem;letter-spacing:.04em;text-transform:uppercase;margin-bottom:18px}
 h1{font-size:clamp(2rem,5.5vw,3.4rem);line-height:1.15;font-weight:800;letter-spacing:-.02em;margin-bottom:16px}
 h1 span{background:linear-gradient(90deg,var(--primary),var(--dark));-webkit-background-clip:text;background-clip:text;color:transparent}
-.sub{max-width:640px;margin:0 auto 32px;color:var(--muted);font-size:1.08rem}
+.sub{max-width:640px;margin:0 auto 28px;color:var(--muted);font-size:1.08rem}
 
-/* Glass tool card */
+/* Tool card */
 .glass{
-  background:rgba(255,255,255,.62);
+  background:rgba(255,255,255,.75);
   -webkit-backdrop-filter:blur(22px) saturate(170%);backdrop-filter:blur(22px) saturate(170%);
-  border:1px solid rgba(255,255,255,.8);
+  border:1px solid rgba(255,255,255,.9);
   box-shadow:var(--shadow);border-radius:var(--radius);
 }
 .tool{max-width:760px;margin:0 auto;padding:22px}
@@ -134,21 +90,26 @@ h1 span{background:linear-gradient(90deg,var(--primary),var(--dark));-webkit-bac
   padding:0 96px 0 18px;font-size:1rem;color:var(--text);outline:none;transition:border-color .2s, box-shadow .2s;
 }
 .field input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(233,30,99,.14)}
+
+/* Mini Buttons (Paste & Clear) */
 .field .mini{
   position:absolute;right:8px;height:40px;padding:0 14px;border:0;border-radius:10px;
-  background:var(--soft);color:var(--dark);font-weight:700;cursor:pointer;font-size:.88rem;transition:background .2s, transform .15s;
+  background:var(--soft);color:var(--dark);font-weight:700;cursor:pointer;font-size:.88rem;
+  display:inline-flex;align-items:center;justify-content:center;transition:all .2s;
 }
 .field .mini:hover{background:#ffd9e6}
 .field .mini:active{transform:scale(.95)}
+.field .mini.clear-btn{
+  background:#fee2e2;color:#dc2626;font-size:1.1rem;width:40px;padding:0;display:none;
+}
+.field .mini.clear-btn:hover{background:#fca5a5}
+
 .btn{
   position:relative;height:56px;padding:0 30px;border:0;border-radius:14px;cursor:pointer;
   background:linear-gradient(135deg,var(--primary),var(--dark));color:#fff;font-weight:800;font-size:1.02rem;
   display:inline-flex;align-items:center;justify-content:center;gap:10px;
-  box-shadow:0 12px 26px -10px rgba(233,30,99,.8);
-  transition:transform .18s, box-shadow .18s, filter .18s;overflow:hidden;
+  box-shadow:0 12px 26px -10px rgba(233,30,99,.8);transition:all .18s;overflow:hidden;
 }
-.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);transform:translateX(-120%);transition:transform .6s}
-.btn:hover::after{transform:translateX(120%)}
 .btn:hover{transform:translateY(-2px);box-shadow:0 16px 30px -10px rgba(233,30,99,.9)}
 .btn:active{transform:translateY(0) scale(.98)}
 .btn:disabled{cursor:not-allowed;filter:grayscale(.2) brightness(.95);transform:none}
@@ -157,93 +118,46 @@ h1 span{background:linear-gradient(90deg,var(--primary),var(--dark));-webkit-bac
 .btn.loading .spinner{display:block}
 .btn.loading .ico{display:none}
 @keyframes spin{to{transform:rotate(360deg)}}
+
 .hint{margin-top:12px;font-size:.85rem;color:var(--muted)}
 .error{display:none;margin-top:14px;padding:12px 16px;border-radius:12px;background:#fde8ee;border:1px solid #f8b7cb;color:#a0124a;font-weight:600;text-align:left;font-size:.95rem}
-.error.show{display:block;animation:fade .3s ease}
-@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.error.show{display:block}
 
 /* Result */
 #result{max-width:760px;margin:26px auto 0;display:none;text-align:left}
-#result.show{display:block;animation:fade .4s ease}
+#result.show{display:block}
 .item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:18px}
-.player{background:#12090e;display:flex;justify-content:center;max-height:70vh}
-.player video,.player img{max-height:70vh;width:auto;max-width:100%;margin:0 auto;object-fit:contain}
+.player{background:#12090e;display:flex;justify-content:center;max-height:65vh}
+.player video,.player img{max-height:65vh;width:auto;max-width:100%;object-fit:contain}
 .info{padding:18px 20px}
 .info h3{font-size:1.05rem;margin-bottom:4px;word-break:break-word}
-.meta{color:var(--muted);font-size:.88rem;margin-bottom:14px}
-.dl-list{display:flex;flex-direction:column;gap:10px}
+.dl-list{display:flex;flex-direction:column;gap:10px;margin-top:14px}
 .dl-btn{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-radius:12px;
+  display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-radius:12px;
   text-decoration:none;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--primary),var(--dark));
-  transition:transform .18s, box-shadow .18s;box-shadow:0 10px 22px -12px rgba(233,30,99,.9);
+  box-shadow:0 10px 22px -12px rgba(233,30,99,.9);transition:transform .18s;
 }
 .dl-btn:hover{transform:translateY(-2px)}
-.dl-btn small{opacity:.85;font-weight:600}
-.dl-btn.alt{background:#fff;color:var(--dark);border:2px solid var(--primary);box-shadow:none}
 
 /* Sections */
-section.block{padding:64px 0}
-section.block.white{background:rgba(255,255,255,.55)}
-.sec-head{text-align:center;max-width:680px;margin:0 auto 38px}
-.sec-head h2{font-size:clamp(1.6rem,3.6vw,2.2rem);font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
-.sec-head p{color:var(--muted)}
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;counter-reset:s}
-.step{padding:26px 22px;position:relative}
-.step::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--dark));color:#fff;font-weight:800;margin-bottom:14px}
-.step h3{font-size:1.05rem;margin-bottom:6px}
-.step p{color:var(--muted);font-size:.95rem}
-.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
-.feature{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:transform .25s, box-shadow .25s}
-.feature:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
-.feature .ic{width:46px;height:46px;border-radius:13px;background:var(--soft);display:grid;place-items:center;font-size:1.4rem;margin-bottom:12px}
-.feature h3{font-size:1.05rem;margin-bottom:6px}
-.feature p{color:var(--muted);font-size:.94rem}
-.about{max-width:800px;margin:0 auto;padding:30px}
-.about p{margin-bottom:14px;color:#4b3a43}
-.about p:last-child{margin-bottom:0}
-.guide-text{max-width:800px;margin:34px auto 0;color:#4b3a43}
-.guide-text h3{margin:20px 0 6px;font-size:1.15rem}
-.guide-text p{margin-bottom:10px}
-
-/* FAQ */
-.faq{max-width:800px;margin:0 auto}
-.faq-item{background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:12px;overflow:hidden}
-.faq-q{
-  width:100%;display:flex;justify-content:space-between;align-items:center;gap:14px;text-align:left;
-  background:none;border:0;padding:18px 20px;font:inherit;font-weight:700;color:var(--text);cursor:pointer;
-}
-.faq-q:hover{color:var(--primary)}
-.faq-q .plus{flex:none;width:28px;height:28px;border-radius:50%;background:var(--soft);color:var(--primary);display:grid;place-items:center;font-size:1.2rem;transition:transform .3s, background .3s}
-.faq-item.open .plus{transform:rotate(45deg);background:var(--primary);color:#fff}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
-.faq-a div{padding:0 20px 18px;color:#4b3a43}
-
-footer{background:#2b1b24;color:#e8d5dd;padding:40px 0 30px;text-align:center;font-size:.9rem}
-footer a{color:#ff80ab;text-decoration:none}
-footer p{max-width:720px;margin:0 auto 10px;opacity:.85}
-
-@media (max-width:640px){
-  .nav-links{display:none}
-  .hero{padding:36px 0 28px}
-  .btn{width:100%}
-  .tool{padding:16px}
-  section.block{padding:46px 0}
-}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+section.block{padding:50px 0}
+.sec-head{text-align:center;max-width:680px;margin:0 auto 30px}
+.sec-head h2{font-size:1.8rem;font-weight:800;margin-bottom:10px}
+footer{background:#2b1b24;color:#e8d5dd;padding:30px 0;text-align:center;font-size:.9rem}
+footer a{color:#ff80ab}
 </style>
 </head>
 <body>
 
 <header class="site">
   <div class="container nav">
-    <a class="logo" href="/" aria-label="ReelSaver home">
-      <span class="logo-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+    <a class="logo" href="/">
+      <span class="logo-mark"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
       ReelSaver
     </a>
-    <nav class="nav-links" aria-label="Main">
+    <nav class="nav-links">
       <a href="#how-to">How to</a>
       <a href="#features">Features</a>
-      <a href="#about">About</a>
       <a href="#faq">FAQ</a>
     </nav>
   </div>
@@ -251,117 +165,42 @@ footer p{max-width:720px;margin:0 auto 10px;opacity:.85}
 
 <main>
   <section class="hero">
-    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
     <div class="container">
-      <span class="badge">Free · No Login · HD Quality</span>
+      <span class="badge">Fast · Free · HD Quality</span>
       <h1>Instagram Video &amp; <span>Reel Downloader</span></h1>
-      <p class="sub">Paste any public Instagram Reel, video or IGTV link and save it as an HD MP4 in seconds. Works on iPhone, Android and PC.</p>
+      <p class="sub">Paste any Instagram Reel or video link and download HD MP4 instantly.</p>
+
+      <!-- TOP ADSTERRA / MONETAG BANNER AD SLOT -->
+      <div class="ad-slot">
+        <!-- Paste Banner Ad Script Here (e.g., 728x90 or 320x50) -->
+        <span>[ Top Advertisement Area ]</span>
+      </div>
 
       <div class="tool glass">
-        <form id="dlForm" novalidate>
+        <form id="dlForm">
           <div class="input-row">
             <div class="field">
-              <label for="urlInput" style="position:absolute;left:-9999px">Instagram link</label>
-              <input id="urlInput" type="url" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Paste Instagram Reel or video link here…" required>
+              <input id="urlInput" type="url" placeholder="Paste Instagram link here…" required>
               <button type="button" class="mini" id="pasteBtn">Paste</button>
+              <button type="button" class="mini clear-btn" id="clearBtn" title="Clear">✕</button>
             </div>
             <button type="submit" class="btn" id="submitBtn">
-              <span class="spinner" aria-hidden="true"></span>
-              <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/></svg>
+              <span class="spinner"></span>
+              <svg class="ico" viewBox="0 0 24 24"><path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/></svg>
               <span id="btnText">Download</span>
             </button>
           </div>
-          <p class="hint">Example: https://www.instagram.com/reel/AbC123xyz/</p>
-          <div class="error" id="errorBox" role="alert"></div>
+          <p class="hint">Example: https://www.instagram.com/reel/C-xyz123/</p>
+          <div class="error" id="errorBox"></div>
         </form>
       </div>
 
-      <div id="result" aria-live="polite"></div>
-    </div>
-  </section>
+      <div id="result"></div>
 
-  <section class="block" id="how-to">
-    <div class="container">
-      <div class="sec-head">
-        <h2>How to Download Instagram Videos</h2>
-        <p>Saving an Instagram Reel takes four quick steps and under a minute.</p>
-      </div>
-      <div class="steps">
-        <div class="step glass"><h3>Copy the link</h3><p>Open the Instagram app or website, tap the Share icon on the Reel or video and choose “Copy Link”.</p></div>
-        <div class="step glass"><h3>Paste it above</h3><p>Come back to ReelSaver and paste the link into the input box, or tap the Paste button.</p></div>
-        <div class="step glass"><h3>Press Download</h3><p>Hit the Download button. We fetch the video and show you a preview with every available quality.</p></div>
-        <div class="step glass"><h3>Save the MP4</h3><p>Choose your quality and tap Download MP4. The file is saved straight to your device.</p></div>
-      </div>
-      <div class="guide-text">
-        <h3>Download Instagram Reels on iPhone</h3>
-        <p>Open Safari, paste the Reel link into ReelSaver and tap Download. When the Download prompt appears, tap Download again. Your video is stored in the Files app under Downloads and can be shared to Photos.</p>
-        <h3>Download Instagram Reels on Android</h3>
-        <p>Use Chrome or any browser, paste the link and press Download. The MP4 lands in your Downloads folder and usually appears in your gallery automatically.</p>
-        <h3>Download Instagram Videos on PC or Mac</h3>
-        <p>Paste the post URL from your address bar, press Download and pick the best quality. The file is saved to your default downloads folder, ready to play offline.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="block white" id="features">
-    <div class="container">
-      <div class="sec-head">
-        <h2>Key Features of ReelSaver</h2>
-        <p>Everything you need from an Instagram video saver, with nothing you don’t.</p>
-      </div>
-      <div class="features">
-        <div class="feature"><div class="ic">🎬</div><h3>Reels, Videos &amp; IGTV</h3><p>Download any public Reel, feed video or IGTV clip, including every video in multi-slide carousel posts.</p></div>
-        <div class="feature"><div class="ic">✨</div><h3>HD MP4 Quality</h3><p>Get the highest resolution Instagram provides, with sound, in the universally compatible MP4 format.</p></div>
-        <div class="feature"><div class="ic">⚡</div><h3>Fast &amp; Free</h3><p>No sign-up, no subscription and no watermark added by us. Paste, download, done.</p></div>
-        <div class="feature"><div class="ic">📱</div><h3>Works Everywhere</h3><p>Fully responsive on iPhone, Android, tablets, Windows, macOS and Linux with any modern browser.</p></div>
-        <div class="feature"><div class="ic">🔒</div><h3>Private &amp; Secure</h3><p>We never ask for your Instagram password and we don’t store the videos you download.</p></div>
-        <div class="feature"><div class="ic">▶️</div><h3>Instant Preview</h3><p>Watch the video in the built-in player before you save it, so you always download the right clip.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="block" id="about">
-    <div class="container">
-      <div class="sec-head"><h2>About Us</h2></div>
-      <div class="about glass">
-        <p>ReelSaver is a lightweight online tool built for people who want to keep their favorite Instagram moments available offline. Whether you are a creator backing up your own Reels, a marketer saving reference material you have rights to, or simply someone who wants to watch a clip on a flight, ReelSaver makes it simple.</p>
-        <p>We focus on speed, privacy and a clean experience. There is nothing to install, no account to create, and no personal data to hand over. Our service only accesses content that is already publicly available on Instagram.</p>
-        <p>ReelSaver is an independent tool and is not affiliated with, endorsed by or connected to Instagram or Meta Platforms, Inc. Please respect creators’ rights: download only content you own or have permission to use.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="block white" id="faq">
-    <div class="container">
-      <div class="sec-head">
-        <h2>Frequently Asked Questions</h2>
-        <p>Quick answers about downloading Instagram videos and Reels.</p>
-      </div>
-      <div class="faq">
-        <div class="faq-item">
-          <button class="faq-q" aria-expanded="false"><span>How do I download an Instagram video or Reel?</span><span class="plus" aria-hidden="true">+</span></button>
-          <div class="faq-a"><div>Open Instagram, tap the three dots or Share button on the post, choose Copy Link, paste it into the box above and press Download. Then pick a quality and save the MP4 file.</div></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" aria-expanded="false"><span>Is this Instagram video downloader free?</span><span class="plus" aria-hidden="true">+</span></button>
-          <div class="faq-a"><div>Yes. ReelSaver is completely free to use, with no sign-up, no subscription and no download limits for normal use.</div></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" aria-expanded="false"><span>Can I download videos from private accounts?</span><span class="plus" aria-hidden="true">+</span></button>
-          <div class="faq-a"><div>No. Only publicly visible posts can be downloaded. Content from private accounts is not accessible and we never ask for your Instagram password.</div></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" aria-expanded="false"><span>Where are downloaded videos saved?</span><span class="plus" aria-hidden="true">+</span></button>
-          <div class="faq-a"><div>Files go to your browser’s default download location. On iPhone they appear in the Files app under Downloads, and on Android in the Downloads folder or gallery.</div></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" aria-expanded="false"><span>Does it work on iPhone, Android and PC?</span><span class="plus" aria-hidden="true">+</span></button>
-          <div class="faq-a"><div>Yes. ReelSaver runs in any modern browser, including Safari, Chrome, Firefox and Edge, on iPhone, Android, Windows, macOS and Linux.</div></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" aria-expanded="false"><span>Is it legal to download Instagram videos?</span><span class="plus" aria-hidden="true">+</span></button>
-          <div class="faq-a"><div>Download only content you own or have permission to use. Respect the creator’s copyright and Instagram’s Terms of Use. Personal offline viewing of your own content is the safest use.</div></div>
-        </div>
+      <!-- BOTTOM ADSTERRA / MONETAG BANNER AD SLOT -->
+      <div class="ad-slot" style="margin-top: 30px;">
+        <!-- Paste Banner Ad Script Here -->
+        <span>[ Bottom Advertisement Area ]</span>
       </div>
     </div>
   </section>
@@ -369,9 +208,7 @@ footer p{max-width:720px;margin:0 auto 10px;opacity:.85}
 
 <footer>
   <div class="container">
-    <p><strong>ReelSaver</strong> – Instagram Video &amp; Reel Downloader</p>
-    <p>ReelSaver is not affiliated with Instagram or Meta. All trademarks belong to their respective owners. Please download only content you have the right to save.</p>
-    <p>© <span id="year"></span> ReelSaver. All rights reserved. · <a href="#how-to">How to</a> · <a href="#faq">FAQ</a></p>
+    <p>© <span id="year"></span> ReelSaver. All rights reserved.</p>
   </div>
 </footer>
 
@@ -386,10 +223,45 @@ footer p{max-width:720px;margin:0 auto 10px;opacity:.85}
   var errorBox = document.getElementById('errorBox');
   var resultBox = document.getElementById('result');
   var pasteBtn = document.getElementById('pasteBtn');
+  var clearBtn = document.getElementById('clearBtn');
 
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  var IG_RE = /^https?:\/\/(www\.|m\.)?(instagram\.com|instagr\.am)\/.+/i;
+  // SmartLink Monetization URL (যদি এডস্টেরা/মনেট্যাগ স্মার্টলিংক থাকে তবে নিচে ' ' এর ভেতর বসাবে)
+  var SMARTLINK_URL = ""; 
+
+  function updateInputButtons() {
+    if (input.value.trim().length > 0) {
+      pasteBtn.style.display = 'none';
+      clearBtn.style.display = 'inline-flex';
+    } else {
+      pasteBtn.style.display = 'inline-flex';
+      clearBtn.style.display = 'none';
+    }
+  }
+
+  input.addEventListener('input', updateInputButtons);
+
+  pasteBtn.addEventListener('click', function () {
+    if (navigator.clipboard && navigator.clipboard.readText) {
+      navigator.clipboard.readText().then(function (t) {
+        input.value = (t || '').trim();
+        updateInputButtons();
+        input.focus();
+      }).catch(function () {
+        input.focus();
+      });
+    } else {
+      input.focus();
+    }
+  });
+
+  clearBtn.addEventListener('click', function () {
+    input.value = '';
+    updateInputButtons();
+    clearError();
+    input.focus();
+  });
 
   function showError(msg) {
     errorBox.textContent = msg;
@@ -402,161 +274,90 @@ footer p{max-width:720px;margin:0 auto 10px;opacity:.85}
   function setLoading(on) {
     submitBtn.disabled = on;
     submitBtn.classList.toggle('loading', on);
-    btnText.textContent = on ? 'Fetching…' : 'Download';
+    btnText.textContent = on ? 'Processing…' : 'Download';
   }
-  function fmtDuration(sec) {
-    if (!sec || !isFinite(sec)) return '';
-    sec = Math.round(sec);
-    var m = Math.floor(sec / 60), s = sec % 60;
-    return m + ':' + (s < 10 ? '0' : '') + s;
-  }
-  function fmtSize(bytes) {
-    if (!bytes) return '';
-    var mb = bytes / 1048576;
-    return mb >= 1 ? mb.toFixed(1) + ' MB' : Math.max(1, Math.round(bytes / 1024)) + ' KB';
-  }
-  function proxy(url, filename, download) {
-    return '/api/proxy?url=' + encodeURIComponent(url) +
-      '&filename=' + encodeURIComponent(filename || 'reelsaver') +
-      (download ? '&download=1' : '');
-  }
-  function el(tag, cls, text) {
-    var n = document.createElement(tag);
-    if (cls) n.className = cls;
-    if (text !== undefined) n.textContent = text;
-    return n;
-  }
-
-  pasteBtn.addEventListener('click', function () {
-    if (navigator.clipboard && navigator.clipboard.readText) {
-      navigator.clipboard.readText().then(function (t) {
-        input.value = (t || '').trim();
-        input.focus();
-      }).catch(function () {
-        input.focus();
-        showError('Clipboard access was blocked. Please paste the link manually.');
-      });
-    } else {
-      input.focus();
-      showError('Your browser does not allow quick paste. Please paste the link manually.');
-    }
-  });
 
   function renderResult(data) {
     resultBox.innerHTML = '';
-    data.items.forEach(function (item, idx) {
-      var card = el('div', 'item');
-      var player = el('div', 'player');
-      var first = item.formats[0];
+    var card = document.createElement('div');
+    card.className = 'item';
 
-      if (item.type === 'image') {
-        var img = document.createElement('img');
-        img.alt = item.title || 'Instagram image';
-        img.loading = 'lazy';
-        img.src = proxy(first.url, 'preview.jpg', false);
-        player.appendChild(img);
-      } else {
-        var video = document.createElement('video');
-        video.controls = true;
-        video.playsInline = true;
-        video.preload = 'metadata';
-        if (item.thumbnail) video.poster = proxy(item.thumbnail, 'poster.jpg', false);
-        video.src = proxy(first.url, 'preview.mp4', false);
-        player.appendChild(video);
+    var player = document.createElement('div');
+    player.className = 'player';
+
+    if (data.isVideo) {
+      var video = document.createElement('video');
+      video.controls = true;
+      video.playsInline = true;
+      if (data.thumbnail) video.poster = data.thumbnail;
+      video.src = data.downloadUrl;
+      player.appendChild(video);
+    } else {
+      var img = document.createElement('img');
+      img.src = data.downloadUrl;
+      player.appendChild(img);
+    }
+    card.appendChild(player);
+
+    var info = document.createElement('div');
+    info.className = 'info';
+    var title = document.createElement('h3');
+    title.textContent = data.title || 'Instagram Media';
+    info.appendChild(title);
+
+    var list = document.createElement('div');
+    list.className = 'dl-list';
+
+    var a = document.createElement('a');
+    a.className = 'dl-btn';
+    a.href = data.downloadUrl;
+    a.target = '_blank';
+    a.setAttribute('download', 'instagram-video.mp4');
+    a.innerHTML = '<span>Download High Quality MP4</span> 🚀';
+
+    // Open SmartLink when clicking Download
+    a.addEventListener('click', function() {
+      if (SMARTLINK_URL) {
+        window.open(SMARTLINK_URL, '_blank');
       }
-      card.appendChild(player);
-
-      var info = el('div', 'info');
-      var title = (data.items.length > 1 ? 'Slide ' + (idx + 1) + ' · ' : '') + (item.title || data.title || 'Instagram video');
-      info.appendChild(el('h3', '', title));
-      var metaParts = [];
-      if (data.uploader) metaParts.push('@' + data.uploader);
-      if (item.duration) metaParts.push(fmtDuration(item.duration));
-      info.appendChild(el('p', 'meta', metaParts.join(' · ')));
-
-      var list = el('div', 'dl-list');
-      item.formats.forEach(function (f, i) {
-        var a = document.createElement('a');
-        a.className = 'dl-btn' + (i > 0 ? ' alt' : '');
-        var fname = (data.id || 'reelsaver') + '-' + (idx + 1) + (f.height ? '-' + f.height + 'p' : '') + '.' + f.ext;
-        a.href = proxy(f.url, fname, true);
-        a.setAttribute('download', fname);
-        a.rel = 'noopener';
-        var left = el('span', '', 'Download ' + f.label);
-        var right = el('small', '', fmtSize(f.size));
-        a.appendChild(left);
-        a.appendChild(right);
-        list.appendChild(a);
-      });
-      info.appendChild(list);
-      card.appendChild(info);
-      resultBox.appendChild(card);
     });
-    resultBox.classList.add('show');
-    setTimeout(function () {
-      resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 80);
+
+    list.appendChild(a);
+    info.appendChild(list);
+    card.appendChild(info);
+
+    resultBox.appendChild(card);
+    resultBox.style.display = 'block';
+    resultBox.scrollIntoView({ behavior: 'smooth' });
   }
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     clearError();
-    resultBox.classList.remove('show');
-    resultBox.innerHTML = '';
+    resultBox.style.display = 'none';
 
     var url = input.value.trim();
-    if (!url) { showError('Please paste an Instagram link first.'); return; }
-    if (!IG_RE.test(url)) { showError('That doesn’t look like an Instagram link. Please copy the link from a Reel, video or post.'); return; }
+    if (!url) { showError('Please paste an Instagram link.'); return; }
 
     setLoading(true);
-    var controller = new AbortController();
-    var timer = setTimeout(function () { controller.abort(); }, 70000);
 
     fetch('/api/download', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url: url }),
-      signal: controller.signal
+      body: JSON.stringify({ url: url })
     })
-      .then(function (res) {
-        return res.json().catch(function () { return {}; }).then(function (body) {
-          if (!res.ok || !body.success) {
-            throw new Error(body.error || 'Something went wrong. Please try again.');
-          }
-          return body;
-        });
-      })
-      .then(renderResult)
-      .catch(function (err) {
-        if (err.name === 'AbortError') {
-          showError('The request took too long. Please try again in a moment.');
-        } else {
-          showError(err.message || 'Network error. Please check your connection and try again.');
-        }
-      })
-      .then(function () {
-        clearTimeout(timer);
-        setLoading(false);
-      });
-  });
-
-  // FAQ accordion
-  var items = document.querySelectorAll('.faq-item');
-  items.forEach(function (item) {
-    var btn = item.querySelector('.faq-q');
-    var panel = item.querySelector('.faq-a');
-    btn.addEventListener('click', function () {
-      var open = item.classList.contains('open');
-      items.forEach(function (o) {
-        o.classList.remove('open');
-        o.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
-        o.querySelector('.faq-a').style.maxHeight = null;
-      });
-      if (!open) {
-        item.classList.add('open');
-        btn.setAttribute('aria-expanded', 'true');
-        panel.style.maxHeight = panel.scrollHeight + 'px';
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      if (!data.success) {
+        throw new Error(data.error || 'Failed to fetch video.');
       }
+      renderResult(data);
+    })
+    .catch(function (err) {
+      showError(err.message || 'Something went wrong. Please try again.');
+    })
+    .finally(function () {
+      setLoading(false);
     });
   });
 })();
