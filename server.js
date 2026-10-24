@@ -9,7 +9,7 @@ const path = require('path');
 const { Readable } = require('stream');
 
 const PORT = process.env.PORT || 3000;
-const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY || 'a3b126029bmshfb86807dc38830dp1a8c53jsncf074cc292fc';
+const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY || '677f6077f6msh81af4e26e4f5359p1e9f7djsna06f2cb6db3b';
 const RAPIDAPI_HOST = process.env.RAPIDAPI_HOST || 'instagram-downloader-download-instagram-videos-stories1.p.rapidapi.com';
 
 const app = express();
@@ -31,16 +31,15 @@ const apiLimiter = rateLimit({
 
 function parseRapidApiResponse(data) {
   let items = [];
-  let mainTitle = 'Instagram Video';
+  let mainTitle = data?.caption || data?.title || 'Instagram Media';
 
   if (!data) return { items, title: mainTitle };
-
-  if (data.title) mainTitle = data.title;
-  else if (data.caption) mainTitle = data.caption;
 
   let rawList = [];
   if (Array.isArray(data)) {
     rawList = data;
+  } else if (Array.isArray(data.items)) {
+    rawList = data.items;
   } else if (Array.isArray(data.media)) {
     rawList = data.media;
   } else if (Array.isArray(data.urls)) {
@@ -53,8 +52,8 @@ function parseRapidApiResponse(data) {
 
   rawList.forEach((entry) => {
     if (!entry) return;
-    let url = typeof entry === 'string' ? entry : (entry.url || entry.media || entry.download_url || entry.link);
-    let thumbnail = entry.thumbnail || entry.cover || entry.picture || data.thumbnail || data.cover || '';
+    let url = typeof entry === 'string' ? entry : (entry.download_url || entry.url || entry.media || entry.link);
+    let thumbnail = entry.thumbnail_url || entry.thumbnail || entry.cover || entry.picture || data.thumbnail_url || data.thumbnail || '';
     let height = entry.height || entry.quality || 1080;
     let size = entry.size || entry.filesize || null;
     let type = entry.type || (url && url.includes('.jpg') ? 'image' : 'video');
@@ -85,7 +84,7 @@ app.post('/api/download', apiLimiter, async (req, res) => {
   }
 
   try {
-    const apiUrl = `https://${RAPIDAPI_HOST}/index?url=${encodeURIComponent(url)}`;
+    const apiUrl = `https://${RAPIDAPI_HOST}/fetch?url=${encodeURIComponent(url)}`;
     
     const apiRes = await fetch(apiUrl, {
       method: 'GET',
