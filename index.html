@@ -14,8 +14,10 @@
 <!-- Google Search Console Verification -->
 <meta name="google-site-verification" content="ihjoW37gTzmEshVOHUNdxKuq4Yj0Zwq0rp4yZm9QGR4" />
 
-<!-- Favicon -->
-<link rel="icon" type="image/png" href="https://i.ibb.co.com/m5nyjbkb/file-00000000ce7c82088b325fcf130d3c7f.png">
+<!-- Favicon & App Touch Icons -->
+<link rel="icon" type="image/png" sizes="32x32" href="https://i.ibb.co.com/W4Rb6498/file-00000000d6888211b3ec98af03a69674.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://i.ibb.co.com/W4Rb6498/file-00000000d6888211b3ec98af03a69674.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co.com/W4Rb6498/file-00000000d6888211b3ec98af03a69674.png">
 
 <!-- Open Graph SEO Tags -->
 <meta property="og:type" content="website">
@@ -23,7 +25,7 @@
 <meta property="og:title" content="Instagram Photo &amp; Video Downloader – Free HD MP4/JPG">
 <meta property="og:description" content="Paste any public Instagram Reel, Photo or Carousel post link to download in original high definition.">
 <meta property="og:url" content="https://reelsaver.online/">
-<meta property="og:image" content="https://i.ibb.co.com/m5nyjbkb/file-00000000ce7c82088b325fcf130d3c7f.png">
+<meta property="og:image" content="https://i.ibb.co.com/W4Rb6498/file-00000000d6888211b3ec98af03a69674.png">
 
 <!-- Google Structured Data (SEO Schemas) -->
 <script type="application/ld+json">
@@ -229,7 +231,6 @@ section.white{background:rgba(255,255,255,.6)}
 
 footer{background:#23141d;color:#e8d5dd;padding:36px 0;text-align:center;font-size:.9rem}
 footer a{color:#ff80ab}
-footer .contact-email{margin-top:10px;font-size:.85rem;color:#c0a7b4}
 
 @media (max-width:640px){
   .nav-links{display:none}
@@ -243,7 +244,7 @@ footer .contact-email{margin-top:10px;font-size:.85rem;color:#c0a7b4}
 <header class="site">
   <div class="container nav">
     <a class="logo" href="/">
-      <img src="https://i.ibb.co.com/m5nyjbkb/file-00000000ce7c82088b325fcf130d3c7f.png" alt="Instagram Downloader Logo">
+      <img src="https://i.ibb.co.com/W4Rb6498/file-00000000d6888211b3ec98af03a69674.png" alt="Instagram Downloader Logo">
       Instagram Downloader
     </a>
     <nav class="nav-links">
@@ -437,13 +438,18 @@ footer .contact-email{margin-top:10px;font-size:.85rem;color:#c0a7b4}
 <footer>
   <div class="container">
     <p>© <span id="year"></span> Instagram Downloader. All rights reserved. · <a href="#how-to">How to Use</a> · <a href="#faq">FAQ</a> · <a href="#about">About</a></p>
-    <p class="contact-email">Contact Support: <a href="mailto:support@reelsaver.online">support@reelsaver.online</a></p>
   </div>
 </footer>
 
 <script>
 (function () {
   'use strict';
+
+  // পেজ লোড হলে কোনো স্ক্রোল জাম্প যাতে না হয়
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.scrollTo(0, 0);
 
   var form = document.getElementById('dlForm');
   var input = document.getElementById('urlInput');
@@ -485,12 +491,7 @@ footer .contact-email{margin-top:10px;font-size:.85rem;color:#c0a7b4}
       navigator.clipboard.readText().then(function (t) {
         input.value = (t || '').trim();
         updateInputButtons();
-        input.focus();
-      }).catch(function () {
-        input.focus();
-      });
-    } else {
-      input.focus();
+      }).catch(function () {});
     }
   });
 
@@ -501,7 +502,6 @@ footer .contact-email{margin-top:10px;font-size:.85rem;color:#c0a7b4}
     clearError();
     resultBox.classList.remove('show');
     resultBox.innerHTML = '';
-    input.focus();
   });
 
   function showError(msg) {
@@ -526,10 +526,13 @@ footer .contact-email{margin-top:10px;font-size:.85rem;color:#c0a7b4}
 
   function renderResult(data) {
     resultBox.innerHTML = '';
+    var totalItems = data.items.length;
+    var isMultiple = totalItems > 1;
     
     data.items.forEach(function(item, index) {
       var card = document.createElement('div');
       card.className = 'item';
+      if (index === 0) card.id = 'firstResultCard';
 
       var player = document.createElement('div');
       player.className = 'player';
@@ -552,7 +555,9 @@ footer .contact-email{margin-top:10px;font-size:.85rem;color:#c0a7b4}
       var info = document.createElement('div');
       info.className = 'info';
 
-      var titleText = (data.items.length > 1 ? 'Slide ' + (index + 1) + ' · ' : '') + (item.type === 'video' ? 'Instagram Video' : 'Instagram Photo');
+      var typeName = item.type === 'video' ? 'Video' : 'Photo';
+      var titleText = isMultiple ? ('Slide ' + (index + 1) + ' of ' + totalItems + ' · Instagram ' + typeName) : ('Instagram ' + typeName);
+      
       var h3 = document.createElement('h3');
       h3.textContent = titleText;
       info.appendChild(h3);
@@ -563,14 +568,13 @@ footer .contact-email{margin-top:10px;font-size:.85rem;color:#c0a7b4}
       var dl = document.createElement('a');
       dl.className = 'dl-btn';
       
-      // ফাইল নাম ইউনিক তৈরি করা (যাতে ক্রোম ক্যানসেল/এগেইন পপ-আপ না দেখায়)
       var uniqueFilename = 'reelsaver_' + Date.now().toString().slice(-6) + '_' + (index + 1) + (item.type === 'video' ? '.mp4' : '.jpg');
       var proxyUrl = '/api/proxy?url=' + encodeURIComponent(item.url) + '&filename=' + uniqueFilename + '&download=1';
       
       dl.href = proxyUrl;
       dl.setAttribute('download', uniqueFilename);
 
-      var labelText = item.type === 'video' ? 'Download Video' : 'Download Photo';
+      var labelText = isMultiple ? ('Download ' + typeName + ' #' + (index + 1)) : ('Download ' + typeName);
       dl.innerHTML = '<span>' + labelText + '</span>';
       
       if (item.size) {
@@ -593,7 +597,12 @@ footer .contact-email{margin-top:10px;font-size:.85rem;color:#c0a7b4}
     });
 
     resultBox.classList.add('show');
-    resultBox.scrollIntoView({ behavior: 'smooth' });
+
+    // রেজাল্ট আসার পর সরাসরি ১ম কার্ডটির ওপর স্মুথ স্ক্রোল করে থামবে
+    setTimeout(function() {
+      var firstCard = document.getElementById('firstResultCard') || resultBox;
+      firstCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 120);
   }
 
   form.addEventListener('submit', function (e) {
