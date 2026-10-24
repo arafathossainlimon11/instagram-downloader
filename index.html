@@ -390,7 +390,7 @@ footer .contact-email{margin-top:10px;font-size:.85rem;color:#c0a7b4}
     </div>
   </section>
 
-  <!-- Extended FAQ Section (8 Questions) -->
+  <!-- Extended FAQ Section -->
   <section class="block" id="faq">
     <div class="container">
       <div class="sec-head">
@@ -515,7 +515,7 @@ footer .contact-email{margin-top:10px;font-size:.85rem;color:#c0a7b4}
   function setLoading(on) {
     submitBtn.disabled = on;
     submitBtn.classList.toggle('loading', on);
-    btnText.textContent = on ? 'Fetching...' : 'Download';
+    btnText.textContent = on ? 'Processing...' : 'Download';
   }
 
   function fmtSize(bytes) {
@@ -562,9 +562,13 @@ footer .contact-email{margin-top:10px;font-size:.85rem;color:#c0a7b4}
 
       var dl = document.createElement('a');
       dl.className = 'dl-btn';
-      var proxyUrl = '/api/proxy?url=' + encodeURIComponent(item.url) + '&filename=instagram_' + (index + 1) + (item.type === 'video' ? '.mp4' : '.jpg') + '&download=1';
+      
+      // ফাইল নাম ইউনিক তৈরি করা (যাতে ক্রোম ক্যানসেল/এগেইন পপ-আপ না দেখায়)
+      var uniqueFilename = 'reelsaver_' + Date.now().toString().slice(-6) + '_' + (index + 1) + (item.type === 'video' ? '.mp4' : '.jpg');
+      var proxyUrl = '/api/proxy?url=' + encodeURIComponent(item.url) + '&filename=' + uniqueFilename + '&download=1';
+      
       dl.href = proxyUrl;
-      dl.setAttribute('download', 'instagram_' + (index + 1) + (item.type === 'video' ? '.mp4' : '.jpg'));
+      dl.setAttribute('download', uniqueFilename);
 
       var labelText = item.type === 'video' ? 'Download Video' : 'Download Photo';
       dl.innerHTML = '<span>' + labelText + '</span>';
@@ -654,4 +658,4 @@ footer .contact-email{margin-top:10px;font-size:.85rem;color:#c0a7b4}
 })();
 </script>
 </body>
-                </html>
+  </html>
