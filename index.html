@@ -3,23 +3,63 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Instagram Video &amp; Reel Downloader – Save Reels, Videos &amp; IGTV in HD Free</title>
-<meta name="description" content="Free Instagram video and Reel downloader. Paste a public Instagram link and save Reels, videos and IGTV to your phone or PC in HD MP4. No login, no app, no watermark added.">
-<meta name="keywords" content="instagram video downloader, instagram reel downloader, download instagram reels, save instagram video, instagram video saver, download instagram videos online, igtv downloader, instagram to mp4">
+<title>Instagram Video &amp; Reel Downloader – Download Reels, Photos &amp; IGTV HD</title>
+<meta name="description" content="Free online Instagram video and Reel downloader. Save public Instagram Reels, photos, carousel posts, and IGTV clips in HD MP4 with original quality. No login required.">
+<meta name="keywords" content="instagram video downloader, instagram reel downloader, download instagram reels, save instagram video, instagram photo downloader, igtv downloader, instagram carousel downloader">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-<meta name="author" content="ReelSaver">
+<meta name="author" content="Instagram Downloader">
 <meta name="theme-color" content="#e91e63">
 <link rel="canonical" href="https://reelsaver.online/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23e91e63'/%3E%3Cpath d='M26 20v24l20-12z' fill='%23fff'/%3E%3C/svg%3E">
 
+<!-- Google Search Console Verification -->
+<meta name="google-site-verification" content="ihjoW37gTzmEshVOHUNdxKuq4Yj0Zwq0rp4yZm9QGR4" />
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="https://i.ibb.co.com/m5nyjbkb/file-00000000ce7c82088b325fcf130d3c7f.png">
+
+<!-- Open Graph SEO Tags -->
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="ReelSaver">
+<meta property="og:site_name" content="Instagram Downloader">
 <meta property="og:title" content="Instagram Video &amp; Reel Downloader – Free HD MP4">
-<meta property="og:description" content="Paste a public Instagram link and download Reels, videos and IGTV in HD. Fast, free, no login required.">
+<meta property="og:description" content="Paste any public Instagram Reel or video link to download high-quality MP4 instantly.">
 <meta property="og:url" content="https://reelsaver.online/">
-<meta property="og:image" content="https://reelsaver.online/og-image.svg">
-<meta property="og:locale" content="en_US">
-<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://i.ibb.co.com/m5nyjbkb/file-00000000ce7c82088b325fcf130d3c7f.png">
+
+<!-- Adsterra Social Bar Script -->
+<script data-cfasync="false" src="https://bicea.org/14/df2fda8ed9cbb06eff56dac07e9ed926"></script>
+
+<!-- Google Structured Data (SEO Schemas) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Instagram Video & Reel Downloader",
+  "url": "https://reelsaver.online/",
+  "description": "Free web utility to download public Instagram Reels, videos, photos and IGTV without login.",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "All Browsers (iOS, Android, Windows, Mac)",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How to download Instagram Reels or videos?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Copy the Instagram video URL, paste it into our input box, click Download, choose your quality, and save the MP4 file." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this Instagram Downloader free?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes, our service is 100% free with unlimited downloads and no account sign-up needed." }
+    }
+  ]
+}
+</script>
 
 <style>
 :root{
@@ -29,7 +69,7 @@
   --card:#ffffff;
   --text:#2b1b24;
   --muted:#7a6670;
-  --border:rgba(233,30,99,.16);
+  --border:rgba(233,30,99,.18);
   --shadow:0 18px 50px -18px rgba(194,24,91,.35);
   --radius:20px;
 }
@@ -41,44 +81,43 @@ body{
   padding-bottom:env(safe-area-inset-bottom,0);
 }
 img,video{max-width:100%;display:block}
-a{color:var(--dark)}
-.container{width:100%;max-width:1080px;margin:0 auto;padding:0 20px}
+a{color:var(--dark);text-decoration:none}
+.container{width:100%;max-width:1040px;margin:0 auto;padding:0 20px}
 
 /* Header */
 header.site{
   position:sticky;top:0;z-index:50;
-  background:rgba(255,240,245,.72);
-  -webkit-backdrop-filter:blur(16px) saturate(160%);backdrop-filter:blur(16px) saturate(160%);
+  background:rgba(255,240,245,.82);
+  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
   border-bottom:1px solid var(--border);
   padding-top:env(safe-area-inset-top,0);
 }
-.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
-.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.2rem;color:var(--text);text-decoration:none}
-.logo-mark{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--primary),var(--dark));display:grid;place-items:center;box-shadow:0 6px 16px -4px rgba(233,30,99,.6)}
-.logo-mark svg{width:18px;height:18px;fill:#fff}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{display:flex;align-items:center;gap:12px;font-weight:800;font-size:1.25rem;color:var(--text)}
+.logo img{width:38px;height:38px;border-radius:10px;object-fit:cover;box-shadow:0 4px 12px rgba(233,30,99,.3)}
 .nav-links{display:flex;gap:22px}
-.nav-links a{text-decoration:none;color:var(--muted);font-weight:600;font-size:.95rem;transition:color .2s}
+.nav-links a{color:var(--muted);font-weight:600;font-size:.95rem;transition:color .2s}
 .nav-links a:hover{color:var(--primary)}
 
 /* Ad Banners */
-.ad-slot{
+.ad-wrapper{
   width:100%;max-width:728px;margin:20px auto;text-align:center;
-  min-height:90px;background:rgba(233,30,99,.04);border:1px dashed var(--border);
-  border-radius:12px;display:flex;align-items:center;justify-content:center;
-  color:var(--muted);font-size:.85rem;overflow:hidden;
+  min-height:90px;background:rgba(255,255,255,.5);border:1px dashed var(--border);
+  border-radius:14px;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
 }
 
 /* Hero */
-.hero{position:relative;padding:40px 0 30px;text-align:center;isolation:isolate}
-.badge{display:inline-block;padding:6px 16px;border-radius:999px;background:rgba(233,30,99,.1);color:var(--dark);font-weight:700;font-size:.8rem;letter-spacing:.04em;text-transform:uppercase;margin-bottom:18px}
-h1{font-size:clamp(2rem,5.5vw,3.4rem);line-height:1.15;font-weight:800;letter-spacing:-.02em;margin-bottom:16px}
+.hero{position:relative;padding:36px 0 24px;text-align:center}
+.badge{display:inline-block;padding:6px 16px;border-radius:999px;background:rgba(233,30,99,.1);color:var(--dark);font-weight:700;font-size:.82rem;letter-spacing:.04em;text-transform:uppercase;margin-bottom:16px}
+h1{font-size:clamp(2.1rem,5vw,3.2rem);line-height:1.18;font-weight:800;letter-spacing:-.02em;margin-bottom:14px}
 h1 span{background:linear-gradient(90deg,var(--primary),var(--dark));-webkit-background-clip:text;background-clip:text;color:transparent}
-.sub{max-width:640px;margin:0 auto 28px;color:var(--muted);font-size:1.08rem}
+.sub{max-width:640px;margin:0 auto 28px;color:var(--muted);font-size:1.05rem}
 
-/* Tool card */
+/* Glass Tool Box */
 .glass{
-  background:rgba(255,255,255,.75);
-  -webkit-backdrop-filter:blur(22px) saturate(170%);backdrop-filter:blur(22px) saturate(170%);
+  background:rgba(255,255,255,.78);
+  -webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);
   border:1px solid rgba(255,255,255,.9);
   box-shadow:var(--shadow);border-radius:var(--radius);
 }
@@ -91,7 +130,7 @@ h1 span{background:linear-gradient(90deg,var(--primary),var(--dark));-webkit-bac
 }
 .field input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(233,30,99,.14)}
 
-/* Mini Buttons (Paste & Clear) */
+/* Paste / Clear Buttons */
 .field .mini{
   position:absolute;right:8px;height:40px;padding:0 14px;border:0;border-radius:10px;
   background:var(--soft);color:var(--dark);font-weight:700;cursor:pointer;font-size:.88rem;
@@ -108,7 +147,7 @@ h1 span{background:linear-gradient(90deg,var(--primary),var(--dark));-webkit-bac
   position:relative;height:56px;padding:0 30px;border:0;border-radius:14px;cursor:pointer;
   background:linear-gradient(135deg,var(--primary),var(--dark));color:#fff;font-weight:800;font-size:1.02rem;
   display:inline-flex;align-items:center;justify-content:center;gap:10px;
-  box-shadow:0 12px 26px -10px rgba(233,30,99,.8);transition:all .18s;overflow:hidden;
+  box-shadow:0 12px 26px -10px rgba(233,30,99,.8);transition:all .18s;
 }
 .btn:hover{transform:translateY(-2px);box-shadow:0 16px 30px -10px rgba(233,30,99,.9)}
 .btn:active{transform:translateY(0) scale(.98)}
@@ -123,28 +162,50 @@ h1 span{background:linear-gradient(90deg,var(--primary),var(--dark));-webkit-bac
 .error{display:none;margin-top:14px;padding:12px 16px;border-radius:12px;background:#fde8ee;border:1px solid #f8b7cb;color:#a0124a;font-weight:600;text-align:left;font-size:.95rem}
 .error.show{display:block}
 
-/* Result */
+/* Result Cards for Carousel / Single Media */
 #result{max-width:760px;margin:26px auto 0;display:none;text-align:left}
-#result.show{display:block}
-.item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:18px}
-.player{background:#12090e;display:flex;justify-content:center;max-height:65vh}
+#result.show{display:block;animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:22px}
+.player{background:#0e060a;display:flex;justify-content:center;max-height:65vh}
 .player video,.player img{max-height:65vh;width:auto;max-width:100%;object-fit:contain}
-.info{padding:18px 20px}
-.info h3{font-size:1.05rem;margin-bottom:4px;word-break:break-word}
-.dl-list{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.info{padding:20px}
+.info h3{font-size:1.08rem;margin-bottom:6px;word-break:break-word}
+.info .meta{color:var(--muted);font-size:.88rem;margin-bottom:14px}
+.dl-list{display:flex;flex-direction:column;gap:10px}
 .dl-btn{
-  display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-radius:12px;
+  display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-radius:12px;
   text-decoration:none;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--primary),var(--dark));
   box-shadow:0 10px 22px -12px rgba(233,30,99,.9);transition:transform .18s;
 }
 .dl-btn:hover{transform:translateY(-2px)}
+.dl-btn small{background:rgba(255,255,255,.25);padding:3px 10px;border-radius:20px;font-size:.8rem}
 
-/* Sections */
-section.block{padding:50px 0}
-.sec-head{text-align:center;max-width:680px;margin:0 auto 30px}
-.sec-head h2{font-size:1.8rem;font-weight:800;margin-bottom:10px}
-footer{background:#2b1b24;color:#e8d5dd;padding:30px 0;text-align:center;font-size:.9rem}
+/* Content Sections for High SEO */
+section.block{padding:54px 0}
+section.white{background:rgba(255,255,255,.6)}
+.sec-head{text-align:center;max-width:680px;margin:0 auto 34px}
+.sec-head h2{font-size:1.85rem;font-weight:800;margin-bottom:10px}
+.sec-head p{color:var(--muted)}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.card-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:0 8px 24px -10px rgba(0,0,0,.05)}
+.card-box h3{font-size:1.1rem;margin-bottom:8px;color:var(--text)}
+.card-box p{color:var(--muted);font-size:.95rem}
+
+/* FAQ Accordion */
+.faq-item{background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;padding:18px 20px;background:none;border:0;font:inherit;font-weight:700;text-align:left;cursor:pointer}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 20px;color:var(--muted)}
+.faq-item.open .faq-a{padding-bottom:18px}
+
+footer{background:#23141d;color:#e8d5dd;padding:36px 0;text-align:center;font-size:.9rem}
 footer a{color:#ff80ab}
+
+@media (max-width:640px){
+  .nav-links{display:none}
+  .btn{width:100%}
+  .tool{padding:16px}
+}
 </style>
 </head>
 <body>
@@ -152,12 +213,13 @@ footer a{color:#ff80ab}
 <header class="site">
   <div class="container nav">
     <a class="logo" href="/">
-      <span class="logo-mark"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-      ReelSaver
+      <img src="https://i.ibb.co.com/m5nyjbkb/file-00000000ce7c82088b325fcf130d3c7f.png" alt="Instagram Downloader Logo">
+      Instagram Downloader
     </a>
     <nav class="nav-links">
-      <a href="#how-to">How to</a>
+      <a href="#how-to">How to Use</a>
       <a href="#features">Features</a>
+      <a href="#about">About</a>
       <a href="#faq">FAQ</a>
     </nav>
   </div>
@@ -166,23 +228,31 @@ footer a{color:#ff80ab}
 <main>
   <section class="hero">
     <div class="container">
-      <span class="badge">Fast · Free · HD Quality</span>
+      <span class="badge">Fast · Free · No Watermark</span>
       <h1>Instagram Video &amp; <span>Reel Downloader</span></h1>
-      <p class="sub">Paste any Instagram Reel or video link and download HD MP4 instantly.</p>
+      <p class="sub">Download public Instagram Reels, videos, carousel posts, and photos in original HD resolution MP4/JPG.</p>
 
-      <!-- TOP ADSTERRA / MONETAG BANNER AD SLOT -->
-      <div class="ad-slot">
-        <!-- Paste Banner Ad Script Here (e.g., 728x90 or 320x50) -->
-        <span>[ Top Advertisement Area ]</span>
+      <!-- ADSTERRA BANNER AD 728x90 (TOP) -->
+      <div class="ad-wrapper">
+        <script>
+          atOptions = {
+            'key' : '5c9c98df37407a93fe4f6633d44edb5e',
+            'format' : 'iframe',
+            'height' : 90,
+            'width' : 728,
+            'params' : {}
+          };
+        </script>
+        <script src="https://bicea.org/22/5c9c98df37407a93fe4f6633d44edb5e"></script>
       </div>
 
       <div class="tool glass">
-        <form id="dlForm">
+        <form id="dlForm" novalidate>
           <div class="input-row">
             <div class="field">
-              <input id="urlInput" type="url" placeholder="Paste Instagram link here…" required>
+              <input id="urlInput" type="url" placeholder="Paste Instagram Reel or video link here..." required>
               <button type="button" class="mini" id="pasteBtn">Paste</button>
-              <button type="button" class="mini clear-btn" id="clearBtn" title="Clear">✕</button>
+              <button type="button" class="mini clear-btn" id="clearBtn" title="Clear input">✕</button>
             </div>
             <button type="submit" class="btn" id="submitBtn">
               <span class="spinner"></span>
@@ -195,12 +265,104 @@ footer a{color:#ff80ab}
         </form>
       </div>
 
+      <!-- Result Container -->
       <div id="result"></div>
 
-      <!-- BOTTOM ADSTERRA / MONETAG BANNER AD SLOT -->
-      <div class="ad-slot" style="margin-top: 30px;">
-        <!-- Paste Banner Ad Script Here -->
-        <span>[ Bottom Advertisement Area ]</span>
+      <!-- ADSTERRA BANNER AD 728x90 (BOTTOM) -->
+      <div class="ad-wrapper" style="margin-top: 30px;">
+        <script>
+          atOptions = {
+            'key' : '5c9c98df37407a93fe4f6633d44edb5e',
+            'format' : 'iframe',
+            'height' : 90,
+            'width' : 728,
+            'params' : {}
+          };
+        </script>
+        <script src="https://bicea.org/22/5c9c98df37407a93fe4f6633d44edb5e"></script>
+      </div>
+    </div>
+  </section>
+
+  <!-- How to section -->
+  <section class="block" id="how-to">
+    <div class="container">
+      <div class="sec-head">
+        <h2>How to Download Instagram Videos &amp; Reels</h2>
+        <p>Save any public Instagram content in three simple steps.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card-box">
+          <h3>1. Copy Instagram Link</h3>
+          <p>Open the Instagram app or website, locate your desired Reel or post, tap Share and select "Copy Link".</p>
+        </div>
+        <div class="card-box">
+          <h3>2. Paste Link Above</h3>
+          <p>Return to Instagram Downloader and paste the URL into our search bar using the Paste button.</p>
+        </div>
+        <div class="card-box">
+          <h3>3. Download HD MP4</h3>
+          <p>Click Download, preview the media, and click Download MP4 to save it straight to your device.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features section -->
+  <section class="block white" id="features">
+    <div class="container">
+      <div class="sec-head">
+        <h2>Why Use Our Instagram Downloader?</h2>
+        <p>Built for speed, privacy, and maximum output quality.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card-box">
+          <h3>🎬 High Definition Quality</h3>
+          <p>Get original resolution videos up to 1080p Full HD with crisp audio preserved.</p>
+        </div>
+        <div class="card-box">
+          <h3>⚡ Multiple Slide Support</h3>
+          <p>Easily download full carousel posts with multiple images or video slides separately.</p>
+        </div>
+        <div class="card-box">
+          <h3>🔒 100% Free &amp; Anonymous</h3>
+          <p>No login or personal credentials required. All downloads are private and direct.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="block" id="about">
+    <div class="container">
+      <div class="sec-head">
+        <h2>About Instagram Downloader</h2>
+      </div>
+      <div class="card-box" style="max-width: 800px; margin:0 auto; text-align:left;">
+        <p>Instagram Downloader is an independent web utility designed to help creators, marketers, and users save public Instagram media for offline backup and fair-use viewing. We do not store videos or host copyrighted material on our servers.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="block white" id="faq">
+    <div class="container">
+      <div class="sec-head">
+        <h2>Frequently Asked Questions</h2>
+      </div>
+      <div style="max-width: 760px; margin: 0 auto;">
+        <div class="faq-item">
+          <button class="faq-q">Can I download private Instagram posts? <span>+</span></button>
+          <div class="faq-a"><p>No, our tool strictly accesses publicly available Instagram posts to respect creator privacy.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Where are the downloaded MP4 files saved? <span>+</span></button>
+          <div class="faq-a"><p>Files are saved in your device's default Downloads folder or gallery.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Does it work on Mobile and PC? <span>+</span></button>
+          <div class="faq-a"><p>Yes, Instagram Downloader runs on Chrome, Safari, Firefox, Edge across Android, iOS, Windows, and Mac.</p></div>
+        </div>
       </div>
     </div>
   </section>
@@ -208,7 +370,7 @@ footer a{color:#ff80ab}
 
 <footer>
   <div class="container">
-    <p>© <span id="year"></span> ReelSaver. All rights reserved.</p>
+    <p>© <span id="year"></span> Instagram Downloader. All rights reserved. · <a href="#how-to">How to</a> · <a href="#faq">FAQ</a></p>
   </div>
 </footer>
 
@@ -227,8 +389,8 @@ footer a{color:#ff80ab}
 
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // SmartLink Monetization URL (যদি এডস্টেরা/মনেট্যাগ স্মার্টলিংক থাকে তবে নিচে ' ' এর ভেতর বসাবে)
-  var SMARTLINK_URL = ""; 
+  // Adsterra Smartlink URL
+  var SMARTLINK_URL = "https://arwf.org/4/abdc404f091cdde7ddbd56a00de28eb4";
 
   function updateInputButtons() {
     if (input.value.trim().length > 0) {
@@ -274,70 +436,95 @@ footer a{color:#ff80ab}
   function setLoading(on) {
     submitBtn.disabled = on;
     submitBtn.classList.toggle('loading', on);
-    btnText.textContent = on ? 'Processing…' : 'Download';
+    btnText.textContent = on ? 'Fetching...' : 'Download';
+  }
+
+  function fmtSize(bytes) {
+    if (!bytes) return '';
+    var mb = bytes / (1024 * 1024);
+    return mb >= 1 ? mb.toFixed(1) + ' MB' : Math.max(1, Math.round(bytes / 1024)) + ' KB';
   }
 
   function renderResult(data) {
     resultBox.innerHTML = '';
-    var card = document.createElement('div');
-    card.className = 'item';
+    
+    data.items.forEach(function(item, index) {
+      var card = document.createElement('div');
+      card.className = 'item';
 
-    var player = document.createElement('div');
-    player.className = 'player';
+      var player = document.createElement('div');
+      player.className = 'player';
 
-    if (data.isVideo) {
-      var video = document.createElement('video');
-      video.controls = true;
-      video.playsInline = true;
-      if (data.thumbnail) video.poster = data.thumbnail;
-      video.src = data.downloadUrl;
-      player.appendChild(video);
-    } else {
-      var img = document.createElement('img');
-      img.src = data.downloadUrl;
-      player.appendChild(img);
-    }
-    card.appendChild(player);
-
-    var info = document.createElement('div');
-    info.className = 'info';
-    var title = document.createElement('h3');
-    title.textContent = data.title || 'Instagram Media';
-    info.appendChild(title);
-
-    var list = document.createElement('div');
-    list.className = 'dl-list';
-
-    var a = document.createElement('a');
-    a.className = 'dl-btn';
-    a.href = data.downloadUrl;
-    a.target = '_blank';
-    a.setAttribute('download', 'instagram-video.mp4');
-    a.innerHTML = '<span>Download High Quality MP4</span> 🚀';
-
-    // Open SmartLink when clicking Download
-    a.addEventListener('click', function() {
-      if (SMARTLINK_URL) {
-        window.open(SMARTLINK_URL, '_blank');
+      if (item.type === 'video') {
+        var video = document.createElement('video');
+        video.controls = true;
+        video.playsInline = true;
+        if (item.thumbnail) video.poster = item.thumbnail;
+        video.src = item.url;
+        player.appendChild(video);
+      } else {
+        var img = document.createElement('img');
+        img.src = item.url;
+        img.alt = item.title || 'Instagram media';
+        player.appendChild(img);
       }
+      card.appendChild(player);
+
+      var info = document.createElement('div');
+      info.className = 'info';
+
+      var titleText = (data.items.length > 1 ? 'Slide ' + (index + 1) + ' · ' : '') + (item.title || data.title || 'Instagram Media');
+      var h3 = document.createElement('h3');
+      h3.textContent = titleText;
+      info.appendChild(h3);
+
+      var list = document.createElement('div');
+      list.className = 'dl-list';
+
+      var dl = document.createElement('a');
+      dl.className = 'dl-btn';
+      var proxyUrl = '/api/proxy?url=' + encodeURIComponent(item.url) + '&filename=instagram_' + (index + 1) + (item.type === 'video' ? '.mp4' : '.jpg') + '&download=1';
+      dl.href = proxyUrl;
+      dl.setAttribute('download', 'instagram_' + (index + 1) + (item.type === 'video' ? '.mp4' : '.jpg'));
+
+      var labelText = (item.height ? item.height + 'p ' : '') + (item.type === 'video' ? 'Download High Quality MP4' : 'Download Photo');
+      dl.innerHTML = '<span>' + labelText + '</span>';
+      
+      if (item.size) {
+        var sizeSpan = document.createElement('small');
+        sizeSpan.textContent = fmtSize(item.size);
+        dl.appendChild(sizeSpan);
+      }
+
+      // Trigger Smartlink on click
+      dl.addEventListener('click', function() {
+        if (SMARTLINK_URL) {
+          window.open(SMARTLINK_URL, '_blank');
+        }
+      });
+
+      list.appendChild(dl);
+      info.appendChild(list);
+      card.appendChild(info);
+
+      resultBox.appendChild(card);
     });
 
-    list.appendChild(a);
-    info.appendChild(list);
-    card.appendChild(info);
-
-    resultBox.appendChild(card);
-    resultBox.style.display = 'block';
+    resultBox.classList.add('show');
     resultBox.scrollIntoView({ behavior: 'smooth' });
   }
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     clearError();
-    resultBox.style.display = 'none';
+    resultBox.classList.remove('show');
 
     var url = input.value.trim();
-    if (!url) { showError('Please paste an Instagram link.'); return; }
+    if (!url) { showError('Please paste a valid Instagram link first.'); return; }
+    if (!url.includes('instagram.com') && !url.includes('instagr.am')) {
+      showError('That does not look like an Instagram link. Please check again.');
+      return;
+    }
 
     setLoading(true);
 
@@ -348,16 +535,36 @@ footer a{color:#ff80ab}
     })
     .then(function (res) { return res.json(); })
     .then(function (data) {
-      if (!data.success) {
-        throw new Error(data.error || 'Failed to fetch video.');
+      if (!data.success || !data.items || data.items.length === 0) {
+        throw new Error(data.error || 'Failed to fetch media from this link.');
       }
       renderResult(data);
     })
     .catch(function (err) {
-      showError(err.message || 'Something went wrong. Please try again.');
+      showError(err.message || 'Error connecting to server. Please try again.');
     })
     .finally(function () {
       setLoading(false);
+    });
+  });
+
+  // FAQ Accordion
+  var faqBtns = document.querySelectorAll('.faq-q');
+  faqBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var parent = btn.parentElement;
+      var panel = parent.querySelector('.faq-a');
+      var isOpen = parent.classList.contains('open');
+      
+      document.querySelectorAll('.faq-item').forEach(function(i) {
+        i.classList.remove('open');
+        i.querySelector('.faq-a').style.maxHeight = null;
+      });
+
+      if (!isOpen) {
+        parent.classList.add('open');
+        panel.style.maxHeight = panel.scrollHeight + "px";
+      }
     });
   });
 })();
