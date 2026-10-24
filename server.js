@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
+const { Readable } = require('stream');
 
 const PORT = process.env.PORT || 3000;
 const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY || 'a3b126029bmshfb86807dc38830dp1a8c53jsncf074cc292fc';
@@ -14,26 +15,76 @@ const RAPIDAPI_HOST = process.env.RAPIDAPI_HOST || 'instagram-downloader-downloa
 const app = express();
 app.set('trust proxy', 1);
 
-app.use(helmet({ contentSecurityPolicy: false }));
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginResourcePolicy: { policy: 'cross-origin' }
+}));
 app.use(compression());
 app.use(cors());
 app.use(express.json({ limit: '10kb' }));
 
-// Rate limiter
+// Rate Limiter
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 60,
-  message: { success: false, error: 'Too many requests. Please try again in a few minutes.' }
+  message: { success: false, error: 'Too many requests. Please wait a few minutes and try again.' }
 });
 
-/* ---------- Main API Endpoint ---------- */
+/* ---------- Helper to normalize RapidAPI JSON into standardized items ---------- */
+function parseRapidApiResponse(data) {
+  let items = [];
+  let mainTitle = 'Instagram Video';
+
+  if (!data) return { items, title: mainTitle };
+
+  if (data.title) mainTitle = data.title;
+  else if (data.caption) mainTitle = data.caption;
+
+  // Check if response is an array of media or single object
+  let rawList = [];
+  if (Array.isArray(data)) {
+    rawList = data;
+  } else if (Array.isArray(data.media)) {
+    rawList = data.media;
+  } else if (Array.isArray(data.urls)) {
+    rawList = data.urls;
+  } else if (Array.isArray(data.result)) {
+    rawList = data.result;
+  } else if (typeof data === 'object') {
+    rawList = [data];
+  }
+
+  rawList.forEach((entry) => {
+    if (!entry) return;
+    let url = typeof entry === 'string' ? entry : (entry.url || entry.media || entry.download_url || entry.link);
+    let thumbnail = entry.thumbnail || entry.cover || entry.picture || data.thumbnail || data.cover || '';
+    let height = entry.height || entry.quality || 1080;
+    let size = entry.size || entry.filesize || null;
+    let type = entry.type || (url && url.includes('.jpg') ? 'image' : 'video');
+
+    if (url) {
+      items.push({
+        type: type === 'image' ? 'image' : 'video',
+        url: url,
+        thumbnail: thumbnail,
+        height: height,
+        size: size,
+        title: entry.title || mainTitle
+      });
+    }
+  });
+
+  return { items, title: mainTitle };
+}
+
+/* ---------- Main API Download Route ---------- */
 app.post('/api/download', apiLimiter, async (req, res) => {
   const { url } = req.body;
 
-  if (!url || !url.includes('instagram.com')) {
+  if (!url || (!url.includes('instagram.com') && !url.includes('instagr.am'))) {
     return res.status(400).json({
       success: false,
-      error: 'Please enter a valid Instagram Reel or Video URL.'
+      error: 'Please enter a valid Instagram link.'
     });
   }
 
@@ -49,52 +100,64 @@ app.post('/api/download', apiLimiter, async (req, res) => {
     });
 
     if (!apiRes.ok) {
-      throw new Error(`API responded with status ${apiRes.status}`);
+      throw new Error(`RapidAPI status: ${apiRes.status}`);
     }
 
-    const data = await apiRes.json();
+    const json = await apiRes.json();
+    const { items, title } = parseRapidApiResponse(json);
 
-    // Extracting download links flexibly based on RapidAPI response structure
-    let downloadUrl = null;
-    let isVideo = true;
-    let title = 'Instagram Reel Video';
-    let thumbnail = '';
-
-    if (Array.isArray(data) && data.length > 0) {
-      downloadUrl = data[0].media || data[0].url || data[0].download_url;
-      thumbnail = data[0].thumbnail || '';
-    } else if (typeof data === 'object' && data !== null) {
-      downloadUrl = data.media || data.url || data.download_url || (data.result && data.result[0]?.url);
-      thumbnail = data.thumbnail || data.cover || '';
-      if (data.title) title = data.title;
-      if (data.type === 'image' || (downloadUrl && downloadUrl.includes('.jpg'))) isVideo = false;
-    }
-
-    if (!downloadUrl) {
+    if (!items || items.length === 0) {
       return res.status(404).json({
         success: false,
-        error: 'Unable to extract video link from this post. Make sure the post is public.'
+        error: 'No downloadable media found. Make sure the Instagram post is public.'
       });
     }
 
     return res.json({
       success: true,
-      downloadUrl: downloadUrl,
       title: title,
-      thumbnail: thumbnail,
-      isVideo: isVideo
+      items: items
     });
 
   } catch (err) {
-    console.error('[API Error]:', err.message);
+    console.error('[Download-Error]:', err.message);
     return res.status(500).json({
       success: false,
-      error: 'Failed to fetch media from Instagram. Please try again later.'
+      error: 'Could not fetch Instagram video. Please try again later.'
     });
   }
 });
 
-/* ---------- Frontend Serving ---------- */
+/* ---------- Streaming Proxy (Fixes Download Headers & CORS) ---------- */
+app.get('/api/proxy', async (req, res) => {
+  const targetUrl = req.query.url;
+  const filename = req.query.filename || 'instagram_download.mp4';
+
+  if (!targetUrl) return res.status(400).send('URL required');
+
+  try {
+    const response = await fetch(targetUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+      }
+    });
+
+    if (!response.ok) return res.status(502).send('Failed to fetch media');
+
+    res.setHeader('Content-Type', response.headers.get('content-type') || 'application/octet-stream');
+    if (req.query.download === '1') {
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    }
+
+    const stream = Readable.fromWeb(response.body);
+    stream.pipe(res);
+  } catch (err) {
+    console.error('[Proxy-Error]:', err.message);
+    if (!res.headersSent) res.status(502).send('Media streaming error');
+  }
+});
+
+/* ---------- Serve Static Site ---------- */
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
@@ -104,5 +167,5 @@ app.use((req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`ReelSaver server is active on port ${PORT}`);
+  console.log(`Server is running smoothly on port ${PORT}`);
 });
