@@ -25,9 +25,6 @@
 <meta property="og:url" content="https://reelsaver.online/">
 <meta property="og:image" content="https://i.ibb.co.com/m5nyjbkb/file-00000000ce7c82088b325fcf130d3c7f.png">
 
-<!-- Adsterra Social Bar Script -->
-<script data-cfasync="false" src="https://bicea.org/14/df2fda8ed9cbb06eff56dac07e9ed926"></script>
-
 <!-- Google Structured Data (SEO Schemas) -->
 <script type="application/ld+json">
 {
@@ -158,11 +155,10 @@ h1 span{background:linear-gradient(90deg,var(--primary),var(--dark));-webkit-bac
 .btn.loading .ico{display:none}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-.hint{margin-top:12px;font-size:.85rem;color:var(--muted)}
 .error{display:none;margin-top:14px;padding:12px 16px;border-radius:12px;background:#fde8ee;border:1px solid #f8b7cb;color:#a0124a;font-weight:600;text-align:left;font-size:.95rem}
 .error.show{display:block}
 
-/* Result Cards for Carousel / Single Media */
+/* Result Cards */
 #result{max-width:760px;margin:26px auto 0;display:none;text-align:left}
 #result.show{display:block;animation:fadeUp .4s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
@@ -171,7 +167,6 @@ h1 span{background:linear-gradient(90deg,var(--primary),var(--dark));-webkit-bac
 .player video,.player img{max-height:65vh;width:auto;max-width:100%;object-fit:contain}
 .info{padding:20px}
 .info h3{font-size:1.08rem;margin-bottom:6px;word-break:break-word}
-.info .meta{color:var(--muted);font-size:.88rem;margin-bottom:14px}
 .dl-list{display:flex;flex-direction:column;gap:10px}
 .dl-btn{
   display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-radius:12px;
@@ -181,7 +176,7 @@ h1 span{background:linear-gradient(90deg,var(--primary),var(--dark));-webkit-bac
 .dl-btn:hover{transform:translateY(-2px)}
 .dl-btn small{background:rgba(255,255,255,.25);padding:3px 10px;border-radius:20px;font-size:.8rem}
 
-/* Content Sections for High SEO */
+/* Content Sections */
 section.block{padding:54px 0}
 section.white{background:rgba(255,255,255,.6)}
 .sec-head{text-align:center;max-width:680px;margin:0 auto 34px}
@@ -260,7 +255,6 @@ footer a{color:#ff80ab}
               <span id="btnText">Download</span>
             </button>
           </div>
-          <p class="hint">Example: https://www.instagram.com/reel/C-xyz123/</p>
           <div class="error" id="errorBox"></div>
         </form>
       </div>
@@ -389,7 +383,6 @@ footer a{color:#ff80ab}
 
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // Adsterra Smartlink URL
   var SMARTLINK_URL = "https://arwf.org/4/abdc404f091cdde7ddbd56a00de28eb4";
 
   function updateInputButtons() {
@@ -496,7 +489,6 @@ footer a{color:#ff80ab}
         dl.appendChild(sizeSpan);
       }
 
-      // Trigger Smartlink on click
       dl.addEventListener('click', function() {
         if (SMARTLINK_URL) {
           window.open(SMARTLINK_URL, '_blank');
@@ -548,7 +540,6 @@ footer a{color:#ff80ab}
     });
   });
 
-  // FAQ Accordion
   var faqBtns = document.querySelectorAll('.faq-q');
   faqBtns.forEach(function(btn) {
     btn.addEventListener('click', function() {
