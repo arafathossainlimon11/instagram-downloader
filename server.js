@@ -23,14 +23,12 @@ app.use(compression());
 app.use(cors());
 app.use(express.json({ limit: '10kb' }));
 
-// Rate Limiter
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 60,
   message: { success: false, error: 'Too many requests. Please wait a few minutes and try again.' }
 });
 
-/* ---------- Helper to normalize RapidAPI JSON into standardized items ---------- */
 function parseRapidApiResponse(data) {
   let items = [];
   let mainTitle = 'Instagram Video';
@@ -40,7 +38,6 @@ function parseRapidApiResponse(data) {
   if (data.title) mainTitle = data.title;
   else if (data.caption) mainTitle = data.caption;
 
-  // Check if response is an array of media or single object
   let rawList = [];
   if (Array.isArray(data)) {
     rawList = data;
@@ -77,7 +74,6 @@ function parseRapidApiResponse(data) {
   return { items, title: mainTitle };
 }
 
-/* ---------- Main API Download Route ---------- */
 app.post('/api/download', apiLimiter, async (req, res) => {
   const { url } = req.body;
 
@@ -100,7 +96,12 @@ app.post('/api/download', apiLimiter, async (req, res) => {
     });
 
     if (!apiRes.ok) {
-      throw new Error(`RapidAPI status: ${apiRes.status}`);
+      const errBody = await apiRes.text();
+      console.error(`[RapidAPI-Error] Status: ${apiRes.status}, Body: ${errBody}`);
+      return res.status(apiRes.status).json({
+        success: false,
+        error: `RapidAPI Error (${apiRes.status}): ${errBody || 'Failed to fetch from provider'}`
+      });
     }
 
     const json = await apiRes.json();
@@ -123,12 +124,11 @@ app.post('/api/download', apiLimiter, async (req, res) => {
     console.error('[Download-Error]:', err.message);
     return res.status(500).json({
       success: false,
-      error: 'Could not fetch Instagram video. Please try again later.'
+      error: `Server Error: ${err.message || 'Could not fetch Instagram video.'}`
     });
   }
 });
 
-/* ---------- Streaming Proxy (Fixes Download Headers & CORS) ---------- */
 app.get('/api/proxy', async (req, res) => {
   const targetUrl = req.query.url;
   const filename = req.query.filename || 'instagram_download.mp4';
@@ -157,7 +157,6 @@ app.get('/api/proxy', async (req, res) => {
   }
 });
 
-/* ---------- Serve Static Site ---------- */
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
@@ -167,5 +166,5 @@ app.use((req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running smoothly on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
