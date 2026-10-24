@@ -54,7 +54,6 @@ function parseRapidApiResponse(data) {
     if (!entry) return;
     let url = typeof entry === 'string' ? entry : (entry.download_url || entry.url || entry.media || entry.link);
     let thumbnail = entry.thumbnail_url || entry.thumbnail || entry.cover || entry.picture || data.thumbnail_url || data.thumbnail || '';
-    let height = entry.height || entry.quality || 1080;
     let size = entry.size || entry.filesize || null;
     let type = entry.type || (url && url.includes('.jpg') ? 'image' : 'video');
 
@@ -63,7 +62,6 @@ function parseRapidApiResponse(data) {
         type: type === 'image' ? 'image' : 'video',
         url: url,
         thumbnail: thumbnail,
-        height: height,
         size: size,
         title: entry.title || mainTitle
       });
@@ -99,7 +97,7 @@ app.post('/api/download', apiLimiter, async (req, res) => {
       console.error(`[RapidAPI-Error] Status: ${apiRes.status}, Body: ${errBody}`);
       return res.status(apiRes.status).json({
         success: false,
-        error: `RapidAPI Error (${apiRes.status}): ${errBody || 'Failed to fetch from provider'}`
+        error: `RapidAPI Error (${apiRes.status}): Could not process this link.`
       });
     }
 
@@ -120,10 +118,13 @@ app.post('/api/download', apiLimiter, async (req, res) => {
     });
 
   } catch (err) {
+    if (err.name === 'AbortError') {
+      return res.status(499).json({ success: false, error: 'Request canceled by user.' });
+    }
     console.error('[Download-Error]:', err.message);
     return res.status(500).json({
       success: false,
-      error: `Server Error: ${err.message || 'Could not fetch Instagram video.'}`
+      error: `Server Error: ${err.message || 'Could not fetch Instagram media.'}`
     });
   }
 });
