@@ -9,8 +9,16 @@ const path = require('path');
 const { Readable } = require('stream');
 
 const PORT = process.env.PORT || 3000;
-const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY || '677f6077f6msh81af4e26e4f5359p1e9f7djsna06f2cb6db3b';
 const RAPIDAPI_HOST = process.env.RAPIDAPI_HOST || 'instagram-downloader-download-instagram-videos-stories1.p.rapidapi.com';
+
+// ৩টি এপিআই কী-এর তালিকা (Sequential Auto-Fallback)
+const API_KEYS = [
+  '677f6077f6msh81af4e26e4f5359p1e9f7djsna06f2cb6db3b', // Key 1 (1,000 Limit)
+  'efb569b10emsh71cc7f476c4862fp1febc4jsnd55348f40b11', // Key 2 (1,000 Limit)
+  'a3b126029bmshfb86907dc36830dp1a8c53jsncf074cc292fc'  // Key 3 (1,000 Limit)
+];
+
+let activeKeyIndex = 0; // মেমোরিতে বর্তমান সচল কী-এর ইনডেক্স
 
 const app = express();
 app.set('trust proxy', 1);
@@ -71,6 +79,49 @@ function parseRapidApiResponse(data) {
   return { items, title: mainTitle };
 }
 
+// অটোমেটিক কী পরিবর্তনকারী ফাংশন
+async function fetchWithFallback(instagramUrl) {
+  const apiUrl = `https://${RAPIDAPI_HOST}/fetch?url=${encodeURIComponent(instagramUrl)}`;
+  let attempts = 0;
+
+  while (attempts < API_KEYS.length) {
+    const currentKey = API_KEYS[activeKeyIndex];
+
+    try {
+      const apiRes = await fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          'x-rapidapi-key': currentKey,
+          'x-rapidapi-host': RAPIDAPI_HOST
+        }
+      });
+
+      // লিমিট শেষ হলে (429/403 Status Code) পরবর্তী কী-তে অটো-সুইচ করবে
+      if (apiRes.status === 429 || apiRes.status === 403) {
+        console.warn(`[Key Switch] Key #${activeKeyIndex + 1} quota exceeded (${apiRes.status}). Switching to next key...`);
+        activeKeyIndex = (activeKeyIndex + 1) % API_KEYS.length;
+        attempts++;
+        continue;
+      }
+
+      if (!apiRes.ok) {
+        const errBody = await apiRes.text();
+        throw new Error(`RapidAPI Error (${apiRes.status}): ${errBody || 'Failed to fetch'}`);
+      }
+
+      return await apiRes.json();
+    } catch (err) {
+      if (attempts === API_KEYS.length - 1) {
+        throw err;
+      }
+      activeKeyIndex = (activeKeyIndex + 1) % API_KEYS.length;
+      attempts++;
+    }
+  }
+
+  throw new Error('All API keys have reached their quota limits.');
+}
+
 app.post('/api/download', apiLimiter, async (req, res) => {
   const { url } = req.body;
 
@@ -82,26 +133,7 @@ app.post('/api/download', apiLimiter, async (req, res) => {
   }
 
   try {
-    const apiUrl = `https://${RAPIDAPI_HOST}/fetch?url=${encodeURIComponent(url)}`;
-    
-    const apiRes = await fetch(apiUrl, {
-      method: 'GET',
-      headers: {
-        'x-rapidapi-key': RAPIDAPI_KEY,
-        'x-rapidapi-host': RAPIDAPI_HOST
-      }
-    });
-
-    if (!apiRes.ok) {
-      const errBody = await apiRes.text();
-      console.error(`[RapidAPI-Error] Status: ${apiRes.status}, Body: ${errBody}`);
-      return res.status(apiRes.status).json({
-        success: false,
-        error: `RapidAPI Error (${apiRes.status}): Could not process this link.`
-      });
-    }
-
-    const json = await apiRes.json();
+    const json = await fetchWithFallback(url);
     const { items, title } = parseRapidApiResponse(json);
 
     if (!items || items.length === 0) {
