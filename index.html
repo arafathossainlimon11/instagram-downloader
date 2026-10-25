@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Instagram Downloader – Save Reels, Photos, Carousel &amp; Videos HD</title>
-<meta name="description" content="Free online Instagram Photo &amp; Video Downloader. Download public Instagram Reels, photos, carousels, stories and IGTV in original HD quality without watermark or login.">
-<meta name="keywords" content="instagram photo downloader, instagram video downloader, download instagram reels, instagram carousel downloader, save instagram pictures, igtv downloader, instagram photo download in original quality">
+<title>Instagram Downloader – Save Reels, Photos, Stories &amp; Videos HD</title>
+<meta name="description" content="Free online Instagram Downloader tool. Download Instagram Reels, Photos, Stories, Highlights, Carousels &amp; IGTV videos in original Full HD MP4/JPG without login or watermark.">
+<meta name="keywords" content="instagram photo downloader, instagram video downloader, download instagram reels, instagram story downloader, save instagram pictures, instagram carousel downloader, download instagram story online, igtv downloader, free instagram downloader, instagram highlight downloader, ig video download hd">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="author" content="Instagram Downloader">
 <meta name="theme-color" content="#e91e63">
@@ -22,8 +22,8 @@
 <!-- Open Graph SEO Tags -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Instagram Downloader">
-<meta property="og:title" content="Instagram Photo &amp; Video Downloader – Free HD MP4/JPG">
-<meta property="og:description" content="Paste any public Instagram Reel, Photo or Carousel post link to download in original high definition.">
+<meta property="og:title" content="Instagram Story, Reels &amp; Photo Downloader – Free Full HD">
+<meta property="og:description" content="Paste any public Instagram Reel, Photo, Story or Carousel post link to download in original high resolution instantly.">
 <meta property="og:url" content="https://reelsaver.online/">
 <meta property="og:image" content="https://i.ibb.co.com/W4Rb6498/file-00000000d6888211b3ec98af03a69674.png">
 
@@ -34,7 +34,7 @@
   "@type": "WebApplication",
   "name": "Instagram Photo & Video Downloader",
   "url": "https://reelsaver.online/",
-  "description": "Free web utility to download public Instagram Reels, photos, carousels, and videos without watermark.",
+  "description": "Free web utility to download public Instagram Reels, photos, stories, carousels, and videos without watermark.",
   "applicationCategory": "MultimediaApplication",
   "operatingSystem": "All Browsers (iOS, Android, Windows, Mac)",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
@@ -58,8 +58,8 @@
     },
     {
       "@type": "Question",
-      "name": "Why is the download slow or not starting?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Ensure your internet connection is stable and check if the Instagram post is publicly accessible." }
+      "name": "Can I download Instagram Stories and Reels?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes! You can paste any public Instagram Reel or Story URL to download high quality MP4 videos directly." }
     },
     {
       "@type": "Question",
@@ -75,16 +75,6 @@
       "@type": "Question",
       "name": "Do I need an Instagram account to download photos?",
       "acceptedAnswer": { "@type": "Answer", "text": "No account or login credentials are required. You can download media completely anonymously." }
-    },
-    {
-      "@type": "Question",
-      "name": "Is it legal to download photos and videos from Instagram?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Downloading public content for personal offline viewing or fair use is allowed. Do not re-upload without creator permission." }
-    },
-    {
-      "@type": "Question",
-      "name": "Is it safe to use this Instagram Downloader?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes, it is 100% safe. We do not store your files or track personal data." }
     }
   ]
 }
@@ -116,17 +106,47 @@ a{color:var(--dark);text-decoration:none}
 /* Header */
 header.site{
   position:sticky;top:0;z-index:50;
-  background:rgba(255,240,245,.82);
+  background:rgba(255,240,245,.88);
   -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
   border-bottom:1px solid var(--border);
   padding-top:env(safe-area-inset-top,0);
 }
-.nav{display:flex;align-items:center;justify-content:space-between;height:68px}
-.logo{display:flex;align-items:center;gap:12px;font-weight:800;font-size:1.25rem;color:var(--text)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px;position:relative}
+.logo{display:flex;align-items:center;gap:12px;font-weight:800;font-size:1.2rem;color:var(--text)}
 .logo img{width:38px;height:38px;border-radius:10px;object-fit:cover;box-shadow:0 4px 12px rgba(233,30,99,.3)}
-.nav-links{display:flex;gap:22px}
-.nav-links a{color:var(--muted);font-weight:600;font-size:.95rem;transition:color .2s}
+.nav-right{display:flex;align-items:center;gap:16px}
+.nav-links{display:flex;gap:18px}
+.nav-links a{color:var(--muted);font-weight:600;font-size:.9rem;transition:color .2s}
 .nav-links a:hover{color:var(--primary)}
+
+/* Custom Language Dropdown */
+.lang-wrapper{position:relative}
+.lang-btn{
+  background:#fff;border:1.5px solid var(--border);border-radius:10px;
+  padding:6px 14px;font-size:0.88rem;font-weight:700;color:var(--dark);
+  cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 8px rgba(0,0,0,.04);
+  transition:all .2s ease;
+}
+.lang-btn:hover{background:var(--soft);border-color:var(--primary)}
+.lang-menu{
+  position:absolute;top:calc(100% + 8px);right:0;width:240px;max-width:82vw;
+  background:#ffffff;border:1px solid var(--border);border-radius:16px;
+  box-shadow:0 12px 32px rgba(0,0,0,.15);padding:12px;display:none;z-index:100;
+  animation:popIn .2s ease;
+}
+.lang-menu.show{display:block}
+@keyframes popIn{from{opacity:0;transform:scale(.95) translateY(-6px)}to{opacity:1;transform:none}}
+.lang-search{
+  width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;
+  font-size:0.85rem;outline:none;margin-bottom:8px;background:#fff0f5;color:var(--text);
+}
+.lang-search:focus{border-color:var(--primary)}
+.lang-list{max-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
+.lang-item{
+  padding:7px 12px;border-radius:8px;font-size:0.85rem;font-weight:600;color:var(--text);
+  cursor:pointer;transition:background .15s;display:flex;align-items:center;justify-content:space-between;
+}
+.lang-item:hover{background:var(--soft);color:var(--primary)}
 
 /* Ad Banners */
 .ad-wrapper{
@@ -229,6 +249,11 @@ section.white{background:rgba(255,255,255,.6)}
 .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 20px;color:var(--muted)}
 .faq-item.open .faq-a{padding-bottom:18px}
 
+/* Hidden Google Translate Container */
+#google_translate_element{display:none!important}
+.goog-te-banner-frame{display:none!important}
+body{top:0!important}
+
 footer{background:#23141d;color:#e8d5dd;padding:36px 0;text-align:center;font-size:.9rem}
 footer a{color:#ff80ab}
 
@@ -241,18 +266,32 @@ footer a{color:#ff80ab}
 </head>
 <body>
 
+<div id="google_translate_element"></div>
+
 <header class="site">
   <div class="container nav">
     <a class="logo" href="/">
       <img src="https://i.ibb.co.com/W4Rb6498/file-00000000d6888211b3ec98af03a69674.png" alt="Instagram Downloader Logo">
       Instagram Downloader
     </a>
-    <nav class="nav-links">
-      <a href="#how-to">How to Use</a>
-      <a href="#features">Features</a>
-      <a href="#about">About</a>
-      <a href="#faq">FAQ</a>
-    </nav>
+    <div class="nav-right">
+      <nav class="nav-links">
+        <a href="#how-to">How to Use</a>
+        <a href="#features">Features</a>
+        <a href="#about">About</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <!-- Compact Language Selector -->
+      <div class="lang-wrapper">
+        <button class="lang-btn" id="langToggle">🌐 <span>Language</span></button>
+        <div class="lang-menu" id="langMenu">
+          <input type="text" class="lang-search" id="langSearch" placeholder="Search language...">
+          <div class="lang-list" id="langList">
+            <!-- Dynamic Languages -->
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -260,8 +299,8 @@ footer a{color:#ff80ab}
   <section class="hero">
     <div class="container">
       <span class="badge">Fast · Free · No Watermark</span>
-      <h1>Instagram Photo &amp; <span>Video Downloader</span></h1>
-      <p class="sub">Download public Instagram photos, Reels, videos, and carousel posts in original Full HD resolution without login or app installation.</p>
+      <h1>Instagram Reels, Story &amp; <span>Video Downloader</span></h1>
+      <p class="sub">Download public Instagram photos, Reels, videos, stories, and carousel posts in original Full HD resolution without login or app installation.</p>
 
       <!-- ADSTERRA BANNER AD 728x90 (TOP) -->
       <div class="ad-wrapper">
@@ -281,7 +320,7 @@ footer a{color:#ff80ab}
         <form id="dlForm" novalidate>
           <div class="input-row">
             <div class="field">
-              <input id="urlInput" type="url" placeholder="Paste Instagram Reel or photo link here..." required>
+              <input id="urlInput" type="url" placeholder="Paste Instagram Reel, Story or Photo link here..." required>
               <button type="button" class="mini" id="pasteBtn">Paste</button>
               <button type="button" class="mini clear-btn" id="clearBtn" title="Clear input & cancel">✕</button>
             </div>
@@ -318,13 +357,13 @@ footer a{color:#ff80ab}
   <section class="block" id="how-to">
     <div class="container">
       <div class="sec-head">
-        <h2>How to Download Photos &amp; Videos from Instagram</h2>
+        <h2>How to Download Photos, Reels &amp; Stories from Instagram</h2>
         <p>Follow three easy steps to save high-resolution media directly to your device.</p>
       </div>
       <div class="grid-3">
         <div class="card-box">
           <h3>1. Copy the URL</h3>
-          <p>Open Instagram, find your desired photo or Reel, tap the share icon and select "Copy Link".</p>
+          <p>Open Instagram, find your desired photo, Story or Reel, tap the share icon and select "Copy Link".</p>
         </div>
         <div class="card-box">
           <h3>2. Paste the Link</h3>
@@ -342,16 +381,16 @@ footer a{color:#ff80ab}
   <section class="block white">
     <div class="container">
       <div class="seo-block">
-        <h3>Download Instagram Photos in Original Quality</h3>
-        <p>Instagram displays photos in screen resolution but provides no direct save button. Our Instagram Downloader returns the full image file itself — JPG, in the largest dimension Instagram stores (up to 1080x1350 for portraits), without quality loss or added watermarks.</p>
+        <h3>Instagram Video &amp; Reels Downloader HD</h3>
+        <p>Download Instagram Reels and videos in high-definition MP4 format without watermarks or quality loss. Our online tool connects directly with Instagram servers to extract clean MP4 files to your device gallery instantly.</p>
       </div>
       <div class="seo-block">
-        <h3>Carousel Download: Every Slide Separately</h3>
-        <p>An Instagram carousel post can hold up to 20 photos and videos in a single gallery. Most downloaders only extract the first cover photo. Our tool parses every slide individually, allowing you to download specific images or the complete set in original resolution.</p>
+        <h3>Instagram Story &amp; Highlight Downloader</h3>
+        <p>Save public Instagram Stories and Highlights easily before they disappear after 24 hours. Paste the story link into our input field to download photos and short video clips directly.</p>
       </div>
       <div class="seo-block">
-        <h3>Save Instagram Content on iPhone (iOS) &amp; Android</h3>
-        <p>On iPhone, open Safari, paste the link into our downloader, click Download, and tap Save Image in the Files app or Camera Roll. On Android and PC/Mac devices, files download instantly to your browser's default Downloads folder without installing third-party apps.</p>
+        <h3>Download Instagram Photos &amp; Carousel Slides</h3>
+        <p>Instagram photos and multi-slide carousel posts are extracted separately in full resolution (up to 1080x1350). You can preview and save every single photo or video slide independently in untouched original JPG/MP4 format.</p>
       </div>
     </div>
   </section>
@@ -364,16 +403,16 @@ footer a{color:#ff80ab}
       </div>
       <div class="grid-3">
         <div class="card-box">
-          <h3>📸 Full Resolution Output</h3>
-          <p>Extract untouched JPG photos and Full HD MP4 video files directly from Instagram servers.</p>
+          <h3>📸 Full HD Output</h3>
+          <p>Extract untouched JPG photos and 1080p MP4 video files directly from Instagram servers.</p>
         </div>
         <div class="card-box">
-          <h3>⚡ Instant Slide Extraction</h3>
-          <p>Carousel galleries are separated into distinct slides so you can download exactly what you need.</p>
+          <h3>⚡ Story &amp; Reels Saver</h3>
+          <p>Carousel galleries, Reels, and Stories are extracted separately so you can download what you need.</p>
         </div>
         <div class="card-box">
-          <h3>🔒 100% Secure &amp; Private</h3>
-          <p>No login, registration, or app installation required. Your downloads are private and direct.</p>
+          <h3>🔒 100% Safe &amp; Anonymous</h3>
+          <p>No login, registration, or app installation required. Your downloads are 100% private.</p>
         </div>
       </div>
     </div>
@@ -386,7 +425,7 @@ footer a{color:#ff80ab}
         <h2>About Instagram Downloader</h2>
       </div>
       <div class="card-box" style="max-width: 820px; margin:0 auto; text-align:left;">
-        <p>Instagram Downloader is an independent web application designed for creators, moodboard designers, and social media managers to backup public Instagram posts. We do not host copyrighted material on our servers or track user activity.</p>
+        <p>Instagram Downloader is an independent web utility designed for creators, video editors, and social media managers to backup public Instagram posts. We do not host copyrighted content on our servers or track user activity.</p>
       </div>
     </div>
   </section>
@@ -407,6 +446,10 @@ footer a{color:#ff80ab}
           <div class="faq-a"><p>Media is fetched in the highest original quality provided by Instagram — up to 1080p Full HD for videos and 1080x1350 resolution for portrait photos.</p></div>
         </div>
         <div class="faq-item">
+          <button class="faq-q">Can I download Instagram Stories and Reels? <span>+</span></button>
+          <div class="faq-a"><p>Yes! You can paste any public Instagram Reel or Story URL to download high quality MP4 videos directly.</p></div>
+        </div>
+        <div class="faq-item">
           <button class="faq-q">Why is the download slow or not starting? <span>+</span></button>
           <div class="faq-a"><p>Check your internet connection and ensure the Instagram link is from a public post. Private posts cannot be processed.</p></div>
         </div>
@@ -415,20 +458,8 @@ footer a{color:#ff80ab}
           <div class="faq-a"><p>No, our utility strictly respects user privacy settings and only downloads content from publicly accessible Instagram profiles.</p></div>
         </div>
         <div class="faq-item">
-          <button class="faq-q">Can I download all photos from a carousel at once? <span>+</span></button>
-          <div class="faq-a"><p>Yes, all slides in a carousel post are listed individually on screen so you can download them one by one.</p></div>
-        </div>
-        <div class="faq-item">
           <button class="faq-q">Do I need an Instagram account to download media? <span>+</span></button>
           <div class="faq-a"><p>No, you do not need an account or login. You can download public media completely anonymously.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">Is it legal to download photos and videos from Instagram? <span>+</span></button>
-          <div class="faq-a"><p>Downloading media for personal reference and offline backup is permitted. Do not redistribute copyrighted material without author permission.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">Is it safe to use this Instagram Downloader? <span>+</span></button>
-          <div class="faq-a"><p>Yes, our tool runs safely in your web browser without requiring software downloads or credential tracking.</p></div>
         </div>
       </div>
     </div>
@@ -441,11 +472,21 @@ footer a{color:#ff80ab}
   </div>
 </footer>
 
+<!-- Google Translate Native Script -->
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 <script>
 (function () {
   'use strict';
 
-  // পেজ লোড হলে কোনো স্ক্রোল জাম্প যাতে না হয়
   if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
   }
@@ -466,6 +507,81 @@ footer a{color:#ff80ab}
 
   var SMARTLINK_URL = "https://arwf.org/4/abdc404f091cdde7ddbd56a00de28eb4";
 
+  /* --- Google Translate Dynamic Dropdown --- */
+  var languages = [
+    { code: 'en', name: 'English' },
+    { code: 'es', name: 'Español (Spanish)' },
+    { code: 'bn', name: 'বাংলা (Bengali)' },
+    { code: 'hi', name: 'हिन्दी (Hindi)' },
+    { code: 'pt', name: 'Português (Portuguese)' },
+    { code: 'fr', name: 'Français (French)' },
+    { code: 'ar', name: 'العربية (Arabic)' },
+    { code: 'de', name: 'Deutsch (German)' },
+    { code: 'id', name: 'Bahasa Indonesia' },
+    { code: 'ru', name: 'Русский (Russian)' },
+    { code: 'tr', name: 'Türkçe (Turkish)' },
+    { code: 'it', name: 'Italiano (Italian)' },
+    { code: 'ja', name: '日本語 (Japanese)' },
+    { code: 'ko', name: '한국어 (Korean)' },
+    { code: 'vi', name: 'Tiếng Việt (Vietnamese)' },
+    { code: 'ur', name: 'اردو (Urdu)' }
+  ];
+
+  var langToggle = document.getElementById('langToggle');
+  var langMenu = document.getElementById('langMenu');
+  var langSearch = document.getElementById('langSearch');
+  var langList = document.getElementById('langList');
+
+  function renderLangList(filterText) {
+    langList.innerHTML = '';
+    var q = (filterText || '').toLowerCase();
+    languages.forEach(function(l) {
+      if (!q || l.name.toLowerCase().includes(q) || l.code.includes(q)) {
+        var div = document.createElement('div');
+        div.className = 'lang-item';
+        div.textContent = l.name;
+        div.addEventListener('click', function() {
+          setLanguage(l.code);
+          langMenu.classList.remove('show');
+        });
+        langList.appendChild(div);
+      }
+    });
+  }
+
+  langToggle.addEventListener('click', function(e) {
+    e.stopPropagation();
+    langMenu.classList.toggle('show');
+    if (langMenu.classList.contains('show')) {
+      langSearch.value = '';
+      renderLangList('');
+      langSearch.focus();
+    }
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!langMenu.contains(e.target) && e.target !== langToggle) {
+      langMenu.classList.remove('show');
+    }
+  });
+
+  langSearch.addEventListener('input', function() {
+    renderLangList(langSearch.value);
+  });
+
+  function setLanguage(langCode) {
+    var select = document.querySelector('.goog-te-combo');
+    if (select) {
+      select.value = langCode;
+      select.dispatchEvent(new Event('change'));
+    } else {
+      document.cookie = "googtrans=/en/" + langCode + "; path=/; domain=" + location.hostname;
+      document.cookie = "googtrans=/en/" + langCode + "; path=/;";
+      location.reload();
+    }
+  }
+
+  /* --- Input UI Control --- */
   function updateInputButtons() {
     if (input.value.trim().length > 0) {
       pasteBtn.style.display = 'none';
@@ -598,11 +714,18 @@ footer a{color:#ff80ab}
 
     resultBox.classList.add('show');
 
-    // রেজাল্ট আসার পর সরাসরি ১ম কার্ডটির ওপর স্মুথ স্ক্রোল করে থামবে
+    /* ১ নম্বর কার্ডের একদম মাথায় নিখুঁত স্ক্রোল ফিক্স */
     setTimeout(function() {
       var firstCard = document.getElementById('firstResultCard') || resultBox;
-      firstCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 120);
+      var headerOffset = 80;
+      var elementPosition = firstCard.getBoundingClientRect().top;
+      var offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }, 150);
   }
 
   form.addEventListener('submit', function (e) {
@@ -618,7 +741,6 @@ footer a{color:#ff80ab}
     }
 
     cancelActiveRequest();
-
     setLoading(true);
 
     activeAbortController = new AbortController();
