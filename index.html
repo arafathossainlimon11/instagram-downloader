@@ -96,7 +96,7 @@
   --input-bg:#ffffff;
 }
 
-/* Eye-Friendly Dark Mode Variables */
+/* Soft Eye-Friendly Dark Mode Variables */
 [data-theme="dark"] {
   --primary:#ff4081;
   --dark:#f50057;
@@ -121,7 +121,7 @@ body{
   top:0 !important; position:static !important;
 }
 
-/* BLOCK GOOGLE TRANSLATE BANNER & POPUP LAYOUT DISTORTIONS */
+/* STRICT OVERRIDE TO REMOVE ALL GOOGLE TRANSLATE FLOATING BARS & POPUPS */
 .goog-te-banner-frame, 
 iframe.goog-te-banner-frame, 
 .goog-te-balloon-frame, 
@@ -163,7 +163,7 @@ header.site{
 .nav-links a{color:var(--muted);font-weight:600;font-size:.9rem;transition:color .2s}
 .nav-links a:hover{color:var(--primary)}
 
-/* Language Dropdown */
+/* Compact Language Dropdown */
 .lang-wrapper{position:relative}
 .lang-btn{
   background:var(--card);border:1.5px solid var(--border);border-radius:10px;
@@ -572,7 +572,7 @@ footer a{color:#ff80ab}
   </div>
 </footer>
 
-<!-- Google Translate Native Script -->
+<!-- Google Translate Hidden Native Script -->
 <script type="text/javascript">
 function googleTranslateElementInit() {
   new google.translate.TranslateElement({
@@ -628,7 +628,7 @@ function googleTranslateElementInit() {
     }
   });
 
-  /* --- Google Translate Dynamic Dropdown --- */
+  /* --- Silent Cookie-Based Language Switcher (Zero Popups) --- */
   var languages = [
     { code: 'en', name: 'English' },
     { code: 'es', name: 'Español (Spanish)' },
@@ -662,7 +662,7 @@ function googleTranslateElementInit() {
         div.className = 'lang-item';
         div.textContent = l.name;
         div.addEventListener('click', function() {
-          setLanguage(l.code);
+          setLanguageCookie(l.code);
           langMenu.classList.remove('show');
         });
         langList.appendChild(div);
@@ -690,16 +690,19 @@ function googleTranslateElementInit() {
     renderLangList(langSearch.value);
   });
 
-  function setLanguage(langCode) {
-    var select = document.querySelector('.goog-te-combo');
-    if (select) {
-      select.value = langCode;
-      select.dispatchEvent(new Event('change'));
-    } else {
-      document.cookie = "googtrans=/en/" + langCode + "; path=/; domain=" + location.hostname;
+  // সাইলেন্ট কুকি মেথড: পেজ ব্যাকগ্রাউন্ডে কুকি সেট করে অনূদিত হবে (নোটিফিকেশন ব্যানার ছাড়াই)
+  function setLanguageCookie(langCode) {
+    var host = window.location.hostname;
+    document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + host;
+    
+    if (langCode !== 'en') {
       document.cookie = "googtrans=/en/" + langCode + "; path=/;";
-      location.reload();
+      document.cookie = "googtrans=/en/" + langCode + "; path=/; domain=" + host;
     }
+    
+    // দ্রুত এবং সাইলেন্টলি রিলোড
+    window.location.reload();
   }
 
   /* --- Input UI Control --- */
@@ -835,7 +838,6 @@ function googleTranslateElementInit() {
 
     resultBox.classList.add('show');
 
-    /* ১ নম্বর কার্ডের ওপর সুন্দরভাবে স্ক্রোল করার ফিক্স */
     setTimeout(function() {
       var firstCard = document.getElementById('firstResultCard') || resultBox;
       var headerOffset = 80;
