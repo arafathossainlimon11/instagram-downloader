@@ -121,7 +121,7 @@ body{
   top:0 !important; position:static !important;
 }
 
-/* STRICT OVERRIDE TO REMOVE ALL GOOGLE TRANSLATE FLOATING BARS & POPUPS */
+/* COMPLETE REMOVAL OF GOOGLE TRANSLATE BANNER FRAME & TOP GAP */
 .goog-te-banner-frame, 
 iframe.goog-te-banner-frame, 
 .goog-te-balloon-frame, 
@@ -133,6 +133,9 @@ iframe.goog-te-banner-frame,
   height:0 !important;
   width:0 !important;
   opacity:0 !important;
+}
+body > .skiptranslate {
+  display:none !important;
 }
 .goog-text-highlight {
   background-color:transparent !important;
@@ -592,6 +595,17 @@ function googleTranslateElementInit() {
   }
   window.scrollTo(0, 0);
 
+  // FORCE REMOVE GOOGLE TRANSLATE FLOATING BANNER & RESET BODY TOP GAP
+  setInterval(function() {
+    if (document.body.style.top !== '0px' && document.body.style.top !== '') {
+      document.body.style.top = '0px';
+    }
+    var banners = document.querySelectorAll('.goog-te-banner-frame, body > .skiptranslate');
+    banners.forEach(function(b) {
+      b.style.display = 'none';
+    });
+  }, 150);
+
   var form = document.getElementById('dlForm');
   var input = document.getElementById('urlInput');
   var submitBtn = document.getElementById('submitBtn');
@@ -628,7 +642,7 @@ function googleTranslateElementInit() {
     }
   });
 
-  /* --- Silent Cookie-Based Language Switcher (Zero Popups) --- */
+  /* --- Cookie-Based Language Switcher --- */
   var languages = [
     { code: 'en', name: 'English' },
     { code: 'es', name: 'Español (Spanish)' },
@@ -690,7 +704,6 @@ function googleTranslateElementInit() {
     renderLangList(langSearch.value);
   });
 
-  // সাইলেন্ট কুকি মেথড: পেজ ব্যাকগ্রাউন্ডে কুকি সেট করে অনূদিত হবে (নোটিফিকেশন ব্যানার ছাড়াই)
   function setLanguageCookie(langCode) {
     var host = window.location.hostname;
     document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
@@ -701,7 +714,6 @@ function googleTranslateElementInit() {
       document.cookie = "googtrans=/en/" + langCode + "; path=/; domain=" + host;
     }
     
-    // দ্রুত এবং সাইলেন্টলি রিলোড
     window.location.reload();
   }
 
