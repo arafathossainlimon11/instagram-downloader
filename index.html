@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Instagram Downloader – Save Reels, Photos, Stories &amp; Videos HD</title>
 <meta name="description" content="Free online Instagram Downloader tool. Download Instagram Reels, Photos, Stories, Highlights, Carousels &amp; IGTV videos in original Full HD MP4/JPG without login or watermark.">
-<meta name="keywords" content="instagram photo downloader, instagram video downloader, download instagram reels, instagram story downloader, save instagram pictures, instagram carousel downloader, download instagram story online, igtv downloader, free instagram downloader, instagram highlight downloader, ig video download hd">
+<meta name="keywords" content="instagram photo downloader, instagram video downloader, download instagram reels, instagram story downloader, save instagram pictures, instagram carousel downloader, download instagram story online, igtv downloader, free instagram downloader, instagram highlight downloader, ig video download hd, instagram reels saver, instagram media download online, instagram photo saver hd, ig story saver free">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="author" content="Instagram Downloader">
 <meta name="theme-color" content="#e91e63">
@@ -91,54 +91,98 @@
   --border:rgba(233,30,99,.18);
   --shadow:0 18px 50px -18px rgba(194,24,91,.35);
   --radius:20px;
+  --glass-bg:rgba(255,255,255,.78);
+  --glass-border:rgba(255,255,255,.9);
+  --input-bg:#ffffff;
 }
+
+/* Eye-Friendly Dark Mode Variables */
+[data-theme="dark"] {
+  --primary:#ff4081;
+  --dark:#f50057;
+  --soft:#12090e;
+  --card:#1c0f17;
+  --text:#fce4ec;
+  --muted:#d8b4c8;
+  --border:rgba(233,30,99,.35);
+  --shadow:0 18px 50px -18px rgba(0,0,0,.8);
+  --glass-bg:rgba(28,15,23,.85);
+  --glass-border:rgba(233,30,99,.25);
+  --input-bg:#261320;
+}
+
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   background:var(--soft);color:var(--text);line-height:1.65;overflow-x:hidden;
   padding-bottom:env(safe-area-inset-bottom,0);
+  transition:background-color .3s ease, color .3s ease;
+  top:0 !important; position:static !important;
 }
+
+/* BLOCK GOOGLE TRANSLATE BANNER & POPUP LAYOUT DISTORTIONS */
+.goog-te-banner-frame, 
+iframe.goog-te-banner-frame, 
+.goog-te-balloon-frame, 
+#goog-gt-tt, 
+.goog-tooltip, 
+.goog-tooltip:hover {
+  display:none !important;
+  visibility:hidden !important;
+  height:0 !important;
+  width:0 !important;
+  opacity:0 !important;
+}
+.goog-text-highlight {
+  background-color:transparent !important;
+  border:none !important;
+  box-shadow:none !important;
+}
+#google_translate_element { display:none !important; }
+
 img,video{max-width:100%;display:block}
-a{color:var(--dark);text-decoration:none}
+a{color:var(--primary);text-decoration:none}
 .container{width:100%;max-width:1040px;margin:0 auto;padding:0 20px}
 
 /* Header */
 header.site{
   position:sticky;top:0;z-index:50;
-  background:rgba(255,240,245,.88);
+  background:var(--soft);
+  opacity:0.96;
   -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
   border-bottom:1px solid var(--border);
   padding-top:env(safe-area-inset-top,0);
+  transition:background-color .3s ease;
 }
 .nav{display:flex;align-items:center;justify-content:space-between;height:68px;position:relative}
 .logo{display:flex;align-items:center;gap:12px;font-weight:800;font-size:1.2rem;color:var(--text)}
 .logo img{width:38px;height:38px;border-radius:10px;object-fit:cover;box-shadow:0 4px 12px rgba(233,30,99,.3)}
-.nav-right{display:flex;align-items:center;gap:16px}
+.nav-right{display:flex;align-items:center;gap:14px}
 .nav-links{display:flex;gap:18px}
 .nav-links a{color:var(--muted);font-weight:600;font-size:.9rem;transition:color .2s}
 .nav-links a:hover{color:var(--primary)}
 
-/* Custom Language Dropdown */
+/* Language Dropdown */
 .lang-wrapper{position:relative}
 .lang-btn{
-  background:#fff;border:1.5px solid var(--border);border-radius:10px;
-  padding:6px 14px;font-size:0.88rem;font-weight:700;color:var(--dark);
+  background:var(--card);border:1.5px solid var(--border);border-radius:10px;
+  padding:6px 14px;font-size:0.88rem;font-weight:700;color:var(--primary);
   cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 8px rgba(0,0,0,.04);
   transition:all .2s ease;
 }
-.lang-btn:hover{background:var(--soft);border-color:var(--primary)}
+.lang-btn:hover{border-color:var(--primary)}
 .lang-menu{
   position:absolute;top:calc(100% + 8px);right:0;width:240px;max-width:82vw;
-  background:#ffffff;border:1px solid var(--border);border-radius:16px;
-  box-shadow:0 12px 32px rgba(0,0,0,.15);padding:12px;display:none;z-index:100;
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  box-shadow:0 12px 32px rgba(0,0,0,.3);padding:12px;display:none;z-index:100;
   animation:popIn .2s ease;
 }
 .lang-menu.show{display:block}
 @keyframes popIn{from{opacity:0;transform:scale(.95) translateY(-6px)}to{opacity:1;transform:none}}
 .lang-search{
   width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;
-  font-size:0.85rem;outline:none;margin-bottom:8px;background:#fff0f5;color:var(--text);
+  font-size:0.85rem;outline:none;margin-bottom:8px;background:var(--input-bg);color:var(--text);
 }
 .lang-search:focus{border-color:var(--primary)}
 .lang-list{max-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
@@ -148,44 +192,56 @@ header.site{
 }
 .lang-item:hover{background:var(--soft);color:var(--primary)}
 
+/* Floating Dark Mode Toggle Button */
+.theme-toggle-btn{
+  position:fixed;bottom:22px;right:22px;z-index:999;
+  width:50px;height:50px;border-radius:50%;border:2px solid var(--primary);
+  background:var(--card);color:var(--primary);cursor:pointer;
+  box-shadow:0 8px 25px rgba(233,30,99,.4);
+  display:flex;align-items:center;justify-content:center;font-size:1.3rem;
+  transition:transform .2s ease, background-color .3s ease;
+}
+.theme-toggle-btn:hover{transform:scale(1.1)}
+.theme-toggle-btn:active{transform:scale(.95)}
+
 /* Ad Banners */
 .ad-wrapper{
   width:100%;max-width:728px;margin:20px auto;text-align:center;
-  min-height:90px;background:rgba(255,255,255,.5);border:1px dashed var(--border);
+  min-height:90px;background:rgba(255,255,255,.05);border:1px dashed var(--border);
   border-radius:14px;display:flex;align-items:center;justify-content:center;
   overflow:hidden;
 }
 
 /* Hero */
 .hero{position:relative;padding:36px 0 24px;text-align:center}
-.badge{display:inline-block;padding:6px 16px;border-radius:999px;background:rgba(233,30,99,.1);color:var(--dark);font-weight:700;font-size:.82rem;letter-spacing:.04em;text-transform:uppercase;margin-bottom:16px}
+.badge{display:inline-block;padding:6px 16px;border-radius:999px;background:rgba(233,30,99,.15);color:var(--primary);font-weight:700;font-size:.82rem;letter-spacing:.04em;text-transform:uppercase;margin-bottom:16px}
 h1{font-size:clamp(2.1rem,5vw,3.2rem);line-height:1.18;font-weight:800;letter-spacing:-.02em;margin-bottom:14px}
 h1 span{background:linear-gradient(90deg,var(--primary),var(--dark));-webkit-background-clip:text;background-clip:text;color:transparent}
 .sub{max-width:680px;margin:0 auto 28px;color:var(--muted);font-size:1.05rem}
 
 /* Glass Tool Box */
 .glass{
-  background:rgba(255,255,255,.78);
+  background:var(--glass-bg);
   -webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);
-  border:1px solid rgba(255,255,255,.9);
+  border:1px solid var(--glass-border);
   box-shadow:var(--shadow);border-radius:var(--radius);
 }
 .tool{max-width:760px;margin:0 auto;padding:22px}
 .input-row{display:flex;gap:10px;flex-wrap:wrap}
 .field{flex:1 1 280px;position:relative;display:flex;align-items:center}
 .field input{
-  width:100%;height:56px;border-radius:14px;border:2px solid var(--border);background:#fff;
+  width:100%;height:56px;border-radius:14px;border:2px solid var(--border);background:var(--input-bg);
   padding:0 96px 0 18px;font-size:1rem;color:var(--text);outline:none;transition:border-color .2s, box-shadow .2s;
 }
-.field input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(233,30,99,.14)}
+.field input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(233,30,99,.18)}
 
 /* Paste / Clear Buttons */
 .field .mini{
   position:absolute;right:8px;height:40px;padding:0 14px;border:0;border-radius:10px;
-  background:var(--soft);color:var(--dark);font-weight:700;cursor:pointer;font-size:.88rem;
+  background:var(--soft);color:var(--primary);font-weight:700;cursor:pointer;font-size:.88rem;
   display:inline-flex;align-items:center;justify-content:center;transition:all .2s;
 }
-.field .mini:hover{background:#ffd9e6}
+.field .mini:hover{background:rgba(233,30,99,.2)}
 .field .mini:active{transform:scale(.95)}
 .field .mini.clear-btn{
   background:#fee2e2;color:#dc2626;font-size:1.1rem;width:40px;padding:0;display:none;
@@ -230,12 +286,12 @@ h1 span{background:linear-gradient(90deg,var(--primary),var(--dark));-webkit-bac
 
 /* Content Sections */
 section.block{padding:54px 0}
-section.white{background:rgba(255,255,255,.6)}
+section.white{background:rgba(255,255,255,.03)}
 .sec-head{text-align:center;max-width:680px;margin:0 auto 34px}
 .sec-head h2{font-size:1.85rem;font-weight:800;margin-bottom:10px}
 .sec-head p{color:var(--muted)}
 .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
-.card-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:0 8px 24px -10px rgba(0,0,0,.05)}
+.card-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:0 8px 24px -10px rgba(0,0,0,.1)}
 .card-box h3{font-size:1.1rem;margin-bottom:8px;color:var(--text)}
 .card-box p{color:var(--muted);font-size:.95rem}
 
@@ -245,28 +301,38 @@ section.white{background:rgba(255,255,255,.6)}
 
 /* FAQ Accordion */
 .faq-item{background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:12px;overflow:hidden}
-.faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;padding:18px 20px;background:none;border:0;font:inherit;font-weight:700;text-align:left;cursor:pointer}
+.faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;padding:18px 20px;background:none;border:0;font:inherit;font-weight:700;text-align:left;cursor:pointer;color:var(--text)}
 .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 20px;color:var(--muted)}
 .faq-item.open .faq-a{padding-bottom:18px}
 
-/* Hidden Google Translate Container */
-#google_translate_element{display:none!important}
-.goog-te-banner-frame{display:none!important}
-body{top:0!important}
+/* SEO Keywords Cloud Tag Box Below FAQ */
+.keywords-section{max-width:860px;margin:30px auto 0;text-align:center}
+.keywords-title{font-size:1.2rem;font-weight:800;color:var(--text);margin-bottom:16px}
+.keyword-tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.kw-tag{
+  background:var(--card);border:1px solid var(--border);color:var(--muted);
+  font-size:0.82rem;font-weight:600;padding:6px 14px;border-radius:20px;
+  transition:all .2s ease;
+}
+.kw-tag:hover{color:var(--primary);border-color:var(--primary);transform:translateY(-1px)}
 
-footer{background:#23141d;color:#e8d5dd;padding:36px 0;text-align:center;font-size:.9rem}
+footer{background:#160911;color:#e8d5dd;padding:36px 0;text-align:center;font-size:.9rem}
 footer a{color:#ff80ab}
 
 @media (max-width:640px){
   .nav-links{display:none}
   .btn{width:100%}
   .tool{padding:16px}
+  .theme-toggle-btn{bottom:16px;right:16px;width:44px;height:44px;font-size:1.1rem}
 }
 </style>
 </head>
 <body>
 
 <div id="google_translate_element"></div>
+
+<!-- Floating Dark Mode Toggle Button -->
+<button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Mode">🌙</button>
 
 <header class="site">
   <div class="container nav">
@@ -462,6 +528,40 @@ footer a{color:#ff80ab}
           <div class="faq-a"><p>No, you do not need an account or login. You can download public media completely anonymously.</p></div>
         </div>
       </div>
+
+      <!-- 25+ Popular Search SEO Keywords Cloud Box -->
+      <div class="keywords-section">
+        <h3 class="keywords-title">Popular Searches &amp; Supported Tools</h3>
+        <div class="keyword-tags">
+          <span class="kw-tag">Instagram Reel Downloader</span>
+          <span class="kw-tag">Download Instagram Video HD</span>
+          <span class="kw-tag">Instagram Story Saver</span>
+          <span class="kw-tag">IG Story Downloader</span>
+          <span class="kw-tag">Instagram Photo Downloader</span>
+          <span class="kw-tag">Instagram Carousel Download</span>
+          <span class="kw-tag">Save Instagram Reels Free</span>
+          <span class="kw-tag">Instagram Video Download MP4</span>
+          <span class="kw-tag">IG Video Saver No Watermark</span>
+          <span class="kw-tag">Instagram Story Download Online</span>
+          <span class="kw-tag">Download IGTV Video</span>
+          <span class="kw-tag">Instagram Post Downloader</span>
+          <span class="kw-tag">Instagram Media Downloader</span>
+          <span class="kw-tag">Instagram Highlights Saver</span>
+          <span class="kw-tag">Fast Instagram Downloader</span>
+          <span class="kw-tag">HD Instagram Video Saver</span>
+          <span class="kw-tag">Download Instagram Reels Online</span>
+          <span class="kw-tag">Instagram Photo Saver HD</span>
+          <span class="kw-tag">IG Reel Download 1080p</span>
+          <span class="kw-tag">Free Instagram Saver Tool</span>
+          <span class="kw-tag">Instagram Online Downloader</span>
+          <span class="kw-tag">Download Instagram Clips</span>
+          <span class="kw-tag">Instagram Carousel Slide Downloader</span>
+          <span class="kw-tag">Instagram Audio Downloader</span>
+          <span class="kw-tag">Insta Saver Online</span>
+          <span class="kw-tag">Save IG Photos Original Resolution</span>
+          <span class="kw-tag">Instagram Downloader iPhone &amp; Android</span>
+        </div>
+      </div>
     </div>
   </section>
 </main>
@@ -500,12 +600,33 @@ function googleTranslateElementInit() {
   var resultBox = document.getElementById('result');
   var pasteBtn = document.getElementById('pasteBtn');
   var clearBtn = document.getElementById('clearBtn');
+  var themeToggleBtn = document.getElementById('themeToggleBtn');
 
   var activeAbortController = null;
 
   document.getElementById('year').textContent = new Date().getFullYear();
 
   var SMARTLINK_URL = "https://arwf.org/4/abdc404f091cdde7ddbd56a00de28eb4";
+
+  /* --- Dark / Light Mode Floating Toggle --- */
+  var currentTheme = localStorage.getItem('theme') || 'light';
+  if (currentTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    themeToggleBtn.textContent = '☀️';
+  }
+
+  themeToggleBtn.addEventListener('click', function() {
+    var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    if (isDark) {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+      themeToggleBtn.textContent = '🌙';
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+      themeToggleBtn.textContent = '☀️';
+    }
+  });
 
   /* --- Google Translate Dynamic Dropdown --- */
   var languages = [
@@ -714,7 +835,7 @@ function googleTranslateElementInit() {
 
     resultBox.classList.add('show');
 
-    /* ১ নম্বর কার্ডের একদম মাথায় নিখুঁত স্ক্রোল ফিক্স */
+    /* ১ নম্বর কার্ডের ওপর সুন্দরভাবে স্ক্রোল করার ফিক্স */
     setTimeout(function() {
       var firstCard = document.getElementById('firstResultCard') || resultBox;
       var headerOffset = 80;
