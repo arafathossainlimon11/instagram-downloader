@@ -3,14 +3,30 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-G33XW9ZRPH"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<!-- Firebase SDK & Analytics -->
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
-  gtag('config', 'G-G33XW9ZRPH');
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyAbNkQpYQZy4c8OIvkfttzF8Q4fmj1u3H4",
+    authDomain: "instagram-video-download-66b25.firebaseapp.com",
+    databaseURL: "https://instagram-video-download-66b25-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "instagram-video-download-66b25",
+    storageBucket: "instagram-video-download-66b25.firebasestorage.app",
+    messagingSenderId: "477513224649",
+    appId: "1:477513224649:web:bba4dc964b90289523d818",
+    measurementId: "G-W7M9JX84SM"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
 </script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
