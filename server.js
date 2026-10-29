@@ -13,9 +13,9 @@ const RAPIDAPI_HOST = process.env.RAPIDAPI_HOST || 'instagram-downloader-downloa
 
 // ৩টি এপিআই কী-এর তালিকা (Sequential Auto-Fallback)
 const API_KEYS = [
-  '677f6077f6msh81af4e26e4f5359p1e9f7djsna06f2cb6db3b', // Key 1 (1,000 Limit)
-  'efb569b10emsh71cc7f476c4862fp1febc4jsnd55348f40b11', // Key 2 (1,000 Limit)
-  'a3b126029bmshfb86907dc36830dp1a8c53jsncf074cc292fc'  // Key 3 (1,000 Limit)
+  'efb569b10emsh71cc7f476c4862fp1febc4jsnd55348f40b11', // Key 1 (1,000 Limit)
+  '', // Key 2 (1,000 Limit)
+  ''  // Key 3 (1,000 Limit)
 ];
 
 let activeKeyIndex = 0; // মেমোরিতে বর্তমান সচল কী-এর ইনডেক্স
