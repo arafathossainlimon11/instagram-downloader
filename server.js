@@ -9,11 +9,11 @@ const path = require('path');
 const { Readable } = require('stream');
 
 const PORT = process.env.PORT || 3000;
-const RAPIDAPI_HOST = process.env.RAPIDAPI_HOST || 'instagram-downloader-download-instagram-videos-stories1.p.rapidapi.com';
+const RAPIDAPI_HOST = process.env.RAPIDAPI_HOST || 'https://instagram-downloader-download-instagram-videos-stories1.p.rapidapi.com';
 
 // ৩টি এপিআই কী-এর তালিকা (Sequential Auto-Fallback)
 const API_KEYS = [
-  'efb569b10emsh71cc7f476c4862fp1febc4jsnd55348f40b11', // Key 1 (1,000 Limit)
+  '6f56e4c927msh56225b35bb61002p1a3f1djsn537757008651', // Key 1 (1,000 Limit)
   '', // Key 2 (1,000 Limit)
   ''  // Key 3 (1,000 Limit)
 ];
