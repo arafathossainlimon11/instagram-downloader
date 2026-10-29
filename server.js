@@ -9,16 +9,14 @@ const path = require('path');
 const { Readable } = require('stream');
 
 const PORT = process.env.PORT || 3000;
-const RAPIDAPI_HOST = process.env.RAPIDAPI_HOST || 'https://instagram-downloader-download-instagram-videos-stories1.p.rapidapi.com';
+const RAPIDAPI_HOST = process.env.RAPIDAPI_HOST || 'instagram-downloader-download-instagram-videos-stories1.p.rapidapi.com';
 
-// ৩টি এপিআই কী-এর তালিকা (Sequential Auto-Fallback)
+// নতুন API Key
 const API_KEYS = [
-  '6f56e4c927msh56225b35bb61002p1a3f1djsn537757008651', // Key 1 (1,000 Limit)
-  '', // Key 2 (1,000 Limit)
-  ''  // Key 3 (1,000 Limit)
+  '6f56e4c927msh56225b35bb61002p1a3f1djsn537757008651'
 ];
 
-let activeKeyIndex = 0; // মেমোরিতে বর্তমান সচল কী-এর ইনডেক্স
+let activeKeyIndex = 0;
 
 const app = express();
 app.set('trust proxy', 1);
@@ -39,7 +37,7 @@ const apiLimiter = rateLimit({
 
 function parseRapidApiResponse(data) {
   let items = [];
-  let mainTitle = data?.caption || data?.title || 'Instagram Media';
+  let mainTitle = data?.caption || data?.title || 'YouTube Media';
 
   if (!data) return { items, title: mainTitle };
 
@@ -79,9 +77,9 @@ function parseRapidApiResponse(data) {
   return { items, title: mainTitle };
 }
 
-// অটোমেটিক কী পরিবর্তনকারী ফাংশন
-async function fetchWithFallback(instagramUrl) {
-  const apiUrl = `https://${RAPIDAPI_HOST}/fetch?url=${encodeURIComponent(instagramUrl)}`;
+// নতুন YouTube API Request
+async function fetchWithFallback(videoUrl) {
+  const apiUrl = `https://${RAPIDAPI_HOST}/youtube/download`;
   let attempts = 0;
 
   while (attempts < API_KEYS.length) {
@@ -89,14 +87,18 @@ async function fetchWithFallback(instagramUrl) {
 
     try {
       const apiRes = await fetch(apiUrl, {
-        method: 'GET',
+        method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           'x-rapidapi-key': currentKey,
           'x-rapidapi-host': RAPIDAPI_HOST
-        }
+        },
+        body: JSON.stringify({
+          url: videoUrl,
+          format: '1080p'
+        })
       });
 
-      // লিমিট শেষ হলে (429/403 Status Code) পরবর্তী কী-তে অটো-সুইচ করবে
       if (apiRes.status === 429 || apiRes.status === 403) {
         console.warn(`[Key Switch] Key #${activeKeyIndex + 1} quota exceeded (${apiRes.status}). Switching to next key...`);
         activeKeyIndex = (activeKeyIndex + 1) % API_KEYS.length;
@@ -125,10 +127,10 @@ async function fetchWithFallback(instagramUrl) {
 app.post('/api/download', apiLimiter, async (req, res) => {
   const { url } = req.body;
 
-  if (!url || (!url.includes('instagram.com') && !url.includes('instagr.am'))) {
+  if (!url || (!url.includes('youtube.com') && !url.includes('youtu.be'))) {
     return res.status(400).json({
       success: false,
-      error: 'Please enter a valid Instagram link.'
+      error: 'Please enter a valid YouTube link.'
     });
   }
 
@@ -139,7 +141,7 @@ app.post('/api/download', apiLimiter, async (req, res) => {
     if (!items || items.length === 0) {
       return res.status(404).json({
         success: false,
-        error: 'No downloadable media found. Make sure the Instagram post is public.'
+        error: 'No downloadable media found. Make sure the YouTube video is available.'
       });
     }
 
@@ -156,7 +158,7 @@ app.post('/api/download', apiLimiter, async (req, res) => {
     console.error('[Download-Error]:', err.message);
     return res.status(500).json({
       success: false,
-      error: `Server Error: ${err.message || 'Could not fetch Instagram media.'}`
+      error: `Server Error: ${err.message || 'Could not fetch YouTube media.'}`
     });
   }
 });
